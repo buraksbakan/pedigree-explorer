@@ -16,4 +16,11 @@ containers/
 
 *.sif
 
+#Logs
+Logs/
+
+*.o*
+*.e*
+*.log
+
 
