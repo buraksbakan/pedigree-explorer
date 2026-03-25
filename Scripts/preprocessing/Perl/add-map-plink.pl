@@ -1,5 +1,10 @@
 #!/usr/bin/env perl
-
+#
+#============================================================================
+#Copied from the IBIS GitHub page as this script is required for running IBIS
+#https://github.com/williamslab/ibis/blob/master/add-map-plink.pl
+#============================================================================
+#
 # Replaces the genetic position in the given PLINK format bim or map file
 # (first argument) using the genetic map files (second through last arguments).
 # Example:
