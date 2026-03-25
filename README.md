@@ -6,7 +6,7 @@ A framework for detection and visualisation of identical-by-descent regions in h
 
 Supporting the analysis of both phased and un-phased data
 
-![Platinum Pedigree Tree](https://github.com/amarshall1312/pedigree-explorer/images/platinum-pedigree-tree.png "Platinum Pedigree Tree")
+![Platinum Pedigree Tree](https://github.com/amarshall1312/pedigree-explorer/blob/main/images/platinum-pedigree-tree.png "Platinum Pedigree Tree")
 
 ## Data Preparation
 
