@@ -136,7 +136,16 @@ awk '{print $3}' "${output_bim}" | head -5
 echo ""
 
 echo "Number of non-zero cM entries:"
-awk '$3 != 0 {count++} END {print count+0}' "${output_bim}"
+awk '{
+  total++
+  if ($3 == 0) zero++
+}
+END {
+  if (total>0)
+    printf "Genetic map coverage: %.2f%% mapped (%d/%d non-zero cM)\n", ((total-zero)/total)*100, (total-zero), total
+  else
+    print "No data"
+}' "${output_bim}"
 echo ""
 
 echo "----------------------------------------"
