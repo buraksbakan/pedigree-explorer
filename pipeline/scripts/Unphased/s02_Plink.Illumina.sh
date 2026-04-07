@@ -56,7 +56,6 @@ pipeline_folder="${base_folder}/data/processed/Illumina_Preprocessing"
 clean_vcf_folder="${pipeline_folder}/clean_vcf"
 plink_folder="${pipeline_folder}/plink"
 plink_files_folder="${plink_folder}/final_plink_files"
-plink_vcf_folder="${plink_folder}/plink_converted_vcf"
 log_folder="${pipeline_folder}/logs"
 
 # Inputs
@@ -65,13 +64,11 @@ input_vcf="${clean_vcf_folder}/illumina.clean.vcf.gz"
 
 # Outputs
 output_prefix="${plink_files_folder}/illumina_clean"
-plink_vcf="${plink_vcf_folder}/illumina_from_plink.vcf.gz"
 log_file="${log_folder}/s02_illumina_plink_$(date +%Y%m%d_%H%M%S).log"
 
 # Create output folders
 mkdir -p \
   "${plink_files_folder}" \
-  "${plink_vcf_folder}" \
   "${log_folder}"
 
 # Log to file and screen
@@ -108,21 +105,7 @@ echo "PLINK conversion complete"
 date
 echo ""
 
-echo "----------------------------------------"
-echo "STEP: Converting PLINK back to VCF"
-date
-echo "----------------------------------------"
 
-singularity exec --bind /mnt/beegfs "${container}" plink2 \
-  --bfile "${output_prefix}" \
-  --recode vcf bgz \
-  --threads "${threads}" \
-  --out "${plink_vcf_folder}/illumina_from_plink"
-
-singularity exec --bind /mnt/beegfs "${container}" \
-bcftools index -t "${plink_vcf}"
-
-echo "PLINK ? VCF conversion complete"
 
 # Validation block
 echo "========================================"
@@ -158,26 +141,6 @@ echo "Preview of first 5 samples (.fam):"
 head -5 "${output_prefix}.fam"
 echo ""
 
-echo ""
-echo "Checking PLINK-converted VCF exists..."
-
-if [ -f "${plink_vcf}" ]; then
-  echo "PASS: Converted VCF found"
-else
-  echo "FAIL: Converted VCF missing"
-  exit 1
-fi
-
-echo "Checking VCF index exists..."
-
-if [ -f "${plink_vcf}.tbi" ]; then
-  echo "PASS: VCF index found"
-else
-  echo "FAIL: VCF index missing"
-  exit 1
-fi
-
-echo ""
 
 echo "========================================"
 echo "STEP COMPLETE: Illumina PLINK conversion successful"
