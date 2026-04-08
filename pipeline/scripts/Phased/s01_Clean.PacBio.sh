@@ -116,7 +116,7 @@ do
       -Ou ${input_vcf} | \
     bcftools filter \
       --threads ${threads} \
-      -i 'QUAL>=20' \
+      -i 'QUAL>=10' \
       -Ou | \
     bcftools sort \
       -Oz -o ${output_vcf} && \
@@ -203,7 +203,7 @@ singularity exec --bind /mnt/beegfs "${container}" \
 
 echo ""
 
-echo "Checking number of QUAL < 20..."
+echo "Checking number of QUAL < 10..."
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools view -H -i 'QUAL<20' "${final_vcf}" | wc -l
 
