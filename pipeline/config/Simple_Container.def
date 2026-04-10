@@ -34,7 +34,6 @@ From: ubuntu:22.04
 
     # ----------------------------
     # Install IBIS
-    # Pin to a commit or tag if you choose one later
     # ----------------------------
     cd /opt
     git clone --recurse-submodules https://github.com/williamslab/ibis.git
@@ -46,7 +45,6 @@ From: ubuntu:22.04
 
     # ----------------------------
     # Install RaPID
-    # Pin to a commit if you choose one later
     # ----------------------------
     cd /opt
     git clone https://github.com/ZhiGroup/RaPID.git

@@ -1,16 +1,16 @@
 #!/bin/bash
-# s01_PacBio_Clean_v3
+# s01_PacBio_Clean_v4
 #
 # Cameron Brown 10Apr2026
 
 # Crescent2 script
 # Note: this script should be run on a compute node
-# qsub s01_PacBio_Clean_v3
+# qsub s01_PacBio_Clean_v4
 
 # PBS directives
 #---------------
 
-#PBS -N s01_pacbio_clean_v3
+#PBS -N s01_pacbio_clean_v4
 #PBS -l nodes=1:ncpus=16
 #PBS -l walltime=01:00:00
 #PBS -q one_hour
@@ -26,11 +26,11 @@ ln -s "$PWD" "$PBS_O_WORKDIR/$PBS_JOBID"
 # Change to working directory
 cd "$PBS_O_WORKDIR"
 
-# Calculate number of threads
-threads="${PBS_NCPUS:-${NCPUS:-1}}"
-
 # Stop at runtime errors
 set -e
+
+# Calculate number of threads
+threads="${PBS_NCPUS:-${NCPUS:-1}}"
 
 # Folders and files
 base_folder="/mnt/beegfs/project/Alexey_Larionov/IBD-2026"
@@ -43,23 +43,25 @@ input_vcf_folder="${base_folder}/data/raw/family_8/pb"
 clean_vcf_folder="${pipeline_folder}/clean_vcf"
 merged_vcf_folder="${pipeline_folder}/merged_vcf"
 stats_folder="${pipeline_folder}/stats"
-raw_stats_folder="${pipeline_folder}/stats/raw_stats"
-clean_stats_folder="${pipeline_folder}/stats/clean_stats"
-# Inputs
+raw_stats_folder="${stats_folder}/raw_stats"
+clean_stats_folder="${stats_folder}/clean_stats"
+
+# Input container
 container="${base_folder}/github_repo/pedigree-explorer/pipeline/config/Simple_Container.sif"
 
-# Outputs
+# Output
 final_vcf="${merged_vcf_folder}/pacbio.merged.clean.vcf.gz"
 
 # Autosomes only
 autosomes="chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10,chr11,chr12,chr13,chr14,chr15,chr16,chr17,chr18,chr19,chr20,chr21,chr22"
 
+# Create output folders
 mkdir -p \
   "${clean_vcf_folder}" \
   "${merged_vcf_folder}" \
   "${stats_folder}" \
   "${raw_stats_folder}" \
-  "${clean_stats_folder}" 
+  "${clean_stats_folder}"
 
 # Check inputs exist
 if [ ! -d "${input_vcf_folder}" ]; then
@@ -72,20 +74,14 @@ if [ ! -f "${container}" ]; then
   exit 1
 fi
 
-# Start message
-echo "========================================="
-echo "STEP1: PacBio VCF clean and merge started"
+echo "----------------------------------------"
+echo "STEP 1: PacBio VCF clean and merge"
 date
 echo "Input folder: ${input_vcf_folder}"
-echo "Final merged VCF: ${final_vcf}"
-echo "Container: ${container}"
-echo "PBS_NODEFILE: ${PBS_NODEFILE}"
-echo "PBS_NCPUS: ${PBS_NCPUS}"
-echo "NCPUS: ${NCPUS}"
+echo "Merged output: $(basename "${final_vcf}")"
 echo "Threads used: ${threads}"
-echo "========================================="
+echo "----------------------------------------"
 echo ""
-
 
 # Clean each PacBio VCF
 cleaned_vcfs=""
@@ -97,26 +93,26 @@ do
     exit 1
   fi
 
-  base_name=$(basename "${input_vcf}" .vcf.gz)
-  
-  
+  # Extract clean base name
+  base_name=$(basename "${input_vcf}")
+  base_name=${base_name%.vcf.gz}
+  base_name=${base_name%.bgzip}
+
   output_vcf="${clean_vcf_folder}/${base_name}.clean.vcf.gz"
   raw_stats_txt="${raw_stats_folder}/${base_name}.raw.stats.txt"
   clean_stats_txt="${clean_stats_folder}/${base_name}.clean.stats.txt"
 
-  echo "========================================="
+  echo "----------------------------------------"
   echo "Processing: ${base_name}"
-  echo "========================================="
+  echo "----------------------------------------"
 
-  # RAW stats (before cleaning)
+  # Raw stats before cleaning
   singularity exec --bind /mnt/beegfs "${container}" \
     bcftools stats "${input_vcf}" > "${raw_stats_txt}"
-    
-  echo "######################################"
-  echo "Raw stats written: ${raw_stats_txt}"
-  echo "######################################"
-  
-  # Cleaning + indexing + CLEAN stats
+
+  echo "Raw stats written: $(basename "${raw_stats_txt}")"
+
+  # Cleaning, indexing, clean stats
   singularity exec --bind /mnt/beegfs "${container}" bash -c "
     bcftools view \
       --threads ${threads} \
@@ -136,18 +132,17 @@ do
   "
 
   cleaned_vcfs="${cleaned_vcfs} ${output_vcf}"
-  
-  echo "######################################"
-  echo "Clean VCF: ${output_vcf}"
-  echo "Clean stats: ${clean_stats_txt}"
+
+  echo "Clean VCF written: $(basename "${output_vcf}")"
+  echo "Clean stats written: $(basename "${clean_stats_txt}")"
   date
-  echo "######################################"
+  echo ""
 done
 
-echo "================================================================="
-echo "STEP2: Merge cleaned PacBio VCFs and apply post-merge filtering" 
-date 
-echo "================================================================="
+echo "----------------------------------------"
+echo "STEP 2: Merge cleaned PacBio VCFs"
+date
+echo "----------------------------------------"
 echo ""
 
 singularity exec --bind /mnt/beegfs "${container}" bash -c "
@@ -165,80 +160,72 @@ singularity exec --bind /mnt/beegfs "${container}" bash -c "
   bcftools index -t ${final_vcf}
 "
 
-echo "#########################################"
-echo "Merge and post-merge filtering complete"
-echo "Final merged VCF:"
-echo "${final_vcf}"
-date
-echo "#########################################"
-
-# Final confirmation
-echo "##########################################################################"
-echo "STEP COMPLETE: PacBio VCFs cleaned, merged, and filtered successfully"
-echo "Final merged biallelic no-missing file:"
-echo "${final_vcf}"
-echo "##########################################################################"
+echo "Merged VCF written: $(basename "${final_vcf}")"
 date
 echo ""
 
-echo "================================================================="
-echo "VALIDATION: Checking final merged VCF to ensure all steps have"
-echo "completed correctly and appropriately"
+echo "----------------------------------------"
+echo "STEP COMPLETE"
+echo "Final file: $(basename "${final_vcf}")"
 date
-echo "================================================================="
+echo "----------------------------------------"
+echo ""
 
-echo "Checking sample names..."
+echo "----------------------------------------"
+echo "VALIDATION"
+date
+echo "----------------------------------------"
+
+echo "Samples:"
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools query -l "${final_vcf}"
 
-echo "================================================================="
+echo "----------------------------------------"
 
-echo "Checking chromosomes present (should be chr1 to chr22 only)..."
+echo "Chromosomes present:"
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools query -f '%CHROM\n' "${final_vcf}" | sort -u
 
-echo "================================================================="
+echo "----------------------------------------"
 
-echo "Checking for indels (should be 0)..."
+echo "Indels:"
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools view -H -v indels "${final_vcf}" | wc -l
 
-echo "================================================================="
+echo "----------------------------------------"
 
-echo "Checking for multiallelic sites (should be 0)..."
+echo "Multiallelic sites:"
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools view -H -m3 "${final_vcf}" | wc -l
 
-echo "================================================================="
+echo "----------------------------------------"
 
-echo "Checking FILTER distribution..."
+echo "FILTER distribution:"
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools query -f '%FILTER\n' "${final_vcf}" | sort | uniq -c
 
-echo "================================================================="
+echo "----------------------------------------"
 
-echo "Checking number of QUAL < 20..."
+echo "Variants with QUAL < 20:"
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools view -H -i 'QUAL<20' "${final_vcf}" | wc -l
 
-echo "================================================================="
+echo "----------------------------------------"
 
-echo "Checking number of variants in final merged VCF..."
+echo "Total variants:"
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools view -H "${final_vcf}" | wc -l
 
-echo "================================================================="
+echo "----------------------------------------"
 
-echo "Checking missing genotypes (should be 0)..."
+echo "Missing genotypes:"
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools query -f '[%GT\n]' "${final_vcf}" | grep '\./\.' | wc -l
 
-echo "================================================================="
-
-echo "########################################"
-echo "VALIDATION COMPLETE"
+echo "----------------------------------------"
+echo "Validation complete"
 date
-echo "########################################"
+echo "----------------------------------------"
 echo ""
 
 # Clean-up
