@@ -1,16 +1,16 @@
 #!/bin/bash
-# s03_Add_Genetic_Map_v3
+# s03_IHCAPX8_Add_Genetic_Map_v1
 #
-# Cameron Brown 24Mar2026
+# Cameron Brown 2026
 
 # Crescent2 script
 # Note: this script should be run on a compute node
-# qsub s03_Add_Genetic_Map_v3
+# qsub s03_IHCAPX8_Add_Genetic_Map_v1
 
 # PBS directives
 #---------------
 
-#PBS -N s03_add_genetic_map_v3
+#PBS -N s03_ihcapx8_add_genetic_map_v1
 #PBS -l nodes=1:ncpus=16
 #PBS -l walltime=00:30:00
 #PBS -q one_hour
@@ -35,10 +35,10 @@ set -e
 # Folders and files
 base_folder="/mnt/beegfs/project/Alexey_Larionov/IBD-2026"
 perl_script="${base_folder}/github_repo/pedigree-explorer/Scripts/preprocessing/Perl/add-map-plink.pl"
-container="${base_folder}/containers/plink.sif"
+container="${base_folder}/github_repo/pedigree-explorer/pipeline/config/Simple_Container.sif"
 
-# Main Illumina preprocessing folder
-pipeline_folder="${base_folder}/data/processed/Illumina_Preprocessing"
+# Main IHCAPX8 Illumina preprocessing folder
+pipeline_folder="${base_folder}/data/processed/IHCAPX8_Illumina_Preprocessing"
 
 # Subfolders
 plink_folder="${pipeline_folder}/plink"
@@ -52,13 +52,13 @@ converted_map_folder="${genetic_map_folder}/converted_for_perl"
 map_folder="${base_folder}/hg38_Map/no_chr_in_chrom_field"
 
 # Prefixes
-input_prefix="${plink_files_folder}/illumina_clean"
-output_prefix="${mapped_plink_folder}/illumina_clean_mapped"
+input_prefix="${plink_files_folder}/IHCAPX8_clean"
+output_prefix="${mapped_plink_folder}/IHCAPX8_clean_mapped"
 
-raw_mapped_vcf_prefix="${mapped_plink_vcf_folder}/illumina_clean_mapped_raw"
+raw_mapped_vcf_prefix="${mapped_plink_vcf_folder}/IHCAPX8_clean_mapped_raw"
 raw_mapped_vcf="${raw_mapped_vcf_prefix}.vcf.gz"
 
-sorted_mapped_vcf_prefix="${mapped_plink_vcf_folder}/illumina_clean_mapped"
+sorted_mapped_vcf_prefix="${mapped_plink_vcf_folder}/IHCAPX8_clean_mapped"
 sorted_mapped_vcf="${sorted_mapped_vcf_prefix}.vcf.gz"
 
 # Input files
@@ -126,7 +126,7 @@ echo ""
 # Add genetic map to BIM
 echo "Running add-map-plink.pl..."
 singularity exec --bind /mnt/beegfs "${container}" \
-perl "${perl_script}" \
+  perl "${perl_script}" \
   -noheader \
   -no_set_zero \
   "${input_bim}" \

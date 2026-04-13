@@ -1,16 +1,16 @@
 #!/bin/bash
-# s01_Illumina_Clean_v4
+# s01_IHCAPX8_Illumina_Clean_v1
 #
 # Cameron Brown 2026
 
 # Crescent2 script
 # Note: this script should be run on a compute node
-# qsub s01_Illumina_Clean_v4
+# qsub s01_IHCAPX8_Illumina_Clean_v1
 
 # PBS directives
 #---------------
 
-#PBS -N s01_illumina_clean_v4
+#PBS -N s01_ihcapx8_illumina_clean_v1
 #PBS -l nodes=1:ncpus=16
 #PBS -l walltime=01:00:00
 #PBS -q one_hour
@@ -35,34 +35,29 @@ set -e
 # Folders and files
 base_folder="/mnt/beegfs/project/Alexey_Larionov/IBD-2026"
 
-# Main Illumina preprocessing folder
-pipeline_folder="${base_folder}/data/processed/Illumina_Preprocessing"
+# Main IHCAPX8 Illumina preprocessing folder
+pipeline_folder="${base_folder}/data/processed/IHCAPX8_Illumina_Preprocessing"
 
 # Subfolders
 clean_vcf_folder="${pipeline_folder}/clean_vcf"
-plink_folder="${pipeline_folder}/plink"
-plink_files_folder="${plink_folder}/final_plink_files"
-plink_vcf_folder="${plink_folder}/plink_converted_vcf"
 stats_folder="${pipeline_folder}/stats"
 raw_stats_folder="${stats_folder}/raw_stats"
 clean_stats_folder="${stats_folder}/clean_stats"
 
 # Inputs
 container="${base_folder}/github_repo/pedigree-explorer/pipeline/config/Simple_Container.sif"
-input_vcf="${base_folder}/data/raw/illumina/CEPH1463.GRCh38.illumina-dragen.oa.vcf.gz"
+input_vcf="${base_folder}/data/raw/family_8/illumina/IHCAPX8_dragen_joint.hard-filtered.vcf.gz"
 
 # Outputs
-output_vcf="${clean_vcf_folder}/illumina.clean.vcf.gz"
-raw_stats_txt="${raw_stats_folder}/illumina.raw.stats.txt"
-clean_stats_txt="${clean_stats_folder}/illumina.clean.stats.txt"
+output_vcf="${clean_vcf_folder}/IHCAPX8.clean.vcf.gz"
+raw_stats_txt="${raw_stats_folder}/IHCAPX8.raw.stats.txt"
+clean_stats_txt="${clean_stats_folder}/IHCAPX8.clean.stats.txt"
 
 # Autosomes only
 autosomes="chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10,chr11,chr12,chr13,chr14,chr15,chr16,chr17,chr18,chr19,chr20,chr21,chr22"
 
 mkdir -p \
   "${clean_vcf_folder}" \
-  "${plink_files_folder}" \
-  "${plink_vcf_folder}" \
   "${raw_stats_folder}" \
   "${clean_stats_folder}"
 
@@ -78,7 +73,7 @@ if [ ! -f "${container}" ]; then
 fi
 
 echo "----------------------------------------"
-echo "STEP: Illumina VCF cleaning"
+echo "STEP: IHCAPX8 Illumina VCF cleaning"
 date
 echo "Input VCF: $(basename "${input_vcf}")"
 echo "Output VCF: $(basename "${output_vcf}")"
@@ -124,7 +119,7 @@ date
 echo ""
 
 echo "----------------------------------------"
-echo "STEP COMPLETE: Illumina VCF cleaned"
+echo "STEP COMPLETE: IHCAPX8 Illumina VCF cleaned"
 echo "Output file: $(basename "${output_vcf}")"
 date
 echo "----------------------------------------"
