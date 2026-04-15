@@ -1,0 +1,15 @@
+PLINK v1.90b7 64-bit (16 Jan 2023)
+Options in effect:
+  --bfile test_data
+  --out ibis_test_input
+  --recode vcf
+
+Hostname: cr2-login-1.central.cranfield.ac.uk
+Working directory: /mnt/beegfs/home/janani.govindarasan/pedigree-explorer
+Start time: Thu Mar 26 13:59:57 2026
+
+Random number seed: 1774533597
+128641 MB RAM detected; reserving 64320 MB for main workspace.
+Error: Failed to open test_data.bed.
+
+End time: Thu Mar 26 13:59:57 2026
