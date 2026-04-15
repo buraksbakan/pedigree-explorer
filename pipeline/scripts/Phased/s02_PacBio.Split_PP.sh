@@ -1,16 +1,16 @@
 #!/bin/bash
-# s02_split_v4
+# s02_split_PP
 #
 # Cameron Brown 10Apr2026
 
 # Crescent2 script
 # Note: this script should be run on a compute node
-# qsub s02_split_v4
+# qsub s02_split_PP
 
 # PBS directives
 #---------------
 
-#PBS -N s02_split_v4
+#PBS -N s02_split_PP
 #PBS -l nodes=1:ncpus=16
 #PBS -l walltime=00:30:00
 #PBS -q half_hour
@@ -31,7 +31,7 @@ threads="${PBS_NCPUS:-${NCPUS:-1}}"
 
 # Folders
 base_folder="/mnt/beegfs/project/Alexey_Larionov/IBD-2026"
-pipeline_folder="${base_folder}/data/processed/PacBio_Preprocessing"
+pipeline_folder="${base_folder}/data/processed/PacBio_Preprocessing_PP"
 
 split_folder="${pipeline_folder}/split"
 counts_folder="${pipeline_folder}/counts"
@@ -62,7 +62,6 @@ echo "STEP 1: Keep only GT FORMAT field"
 date
 echo "----------------------------------------"
 
-# Keep only GT
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools annotate \
     --threads "${threads}" \
@@ -70,7 +69,6 @@ singularity exec --bind /mnt/beegfs "${container}" \
     "${input_vcf}" \
     -Oz -o "${filtered_vcf}"
 
-# Index
 singularity exec --bind /mnt/beegfs "${container}" \
   bcftools index -t "${filtered_vcf}"
 
@@ -87,11 +85,11 @@ echo "----------------------------------------"
 
 echo "PASS: File + index exist"
 
-format_count=$(singularity exec --bind /mnt/beegfs "${container}" bash -c \
-  "bcftools view -h '${filtered_vcf}' | grep '^##FORMAT=' | wc -l")
+format_count=$(singularity exec --bind /mnt/beegfs "${container}" \
+  bcftools view -h "${filtered_vcf}" | grep '^##FORMAT=' | wc -l)
 
-gt_count=$(singularity exec --bind /mnt/beegfs "${container}" bash -c \
-  "bcftools view -h '${filtered_vcf}' | grep '^##FORMAT=<ID=GT,' | wc -l")
+gt_count=$(singularity exec --bind /mnt/beegfs "${container}" \
+  bcftools view -h "${filtered_vcf}" | grep '^##FORMAT=<ID=GT,' | wc -l)
 
 [ "${gt_count}" -eq 1 ] || { echo "FAIL: GT missing"; exit 1; }
 [ "${format_count}" -eq 1 ] || { echo "FAIL: Extra FORMAT fields present"; exit 1; }
@@ -121,9 +119,8 @@ do
   singularity exec --bind /mnt/beegfs "${container}" \
     bcftools index -t "${out_vcf}"
 
-  singularity exec --bind /mnt/beegfs "${container}" bash -c \
-    "bcftools +counts '${out_vcf}' > '${counts_folder}/counts_${chr}.txt'"
-
+  singularity exec --bind /mnt/beegfs "${container}" \
+    bcftools +counts "${out_vcf}" > "${counts_folder}/counts_${chr}.txt"
 done
 
 echo ""
@@ -133,8 +130,8 @@ date
 echo "----------------------------------------"
 
 total_split=0
-filtered_total=$(singularity exec --bind /mnt/beegfs "${container}" bash -c \
-  "bcftools view -H '${filtered_vcf}' | wc -l")
+filtered_total=$(singularity exec --bind /mnt/beegfs "${container}" \
+  bcftools view -H "${filtered_vcf}" | wc -l)
 
 for i in {1..22}
 do
@@ -146,22 +143,22 @@ do
   [ -f "${split_vcf}" ] || { echo "FAIL: Missing ${chr}"; exit 1; }
   [ -f "${split_vcf}.tbi" ] || { echo "FAIL: No index ${chr}"; exit 1; }
 
-  chrom_check=$(singularity exec --bind /mnt/beegfs "${container}" bash -c \
-    "bcftools query -f '%CHROM\n' '${split_vcf}' | sort -u")
+  chrom_check=$(singularity exec --bind /mnt/beegfs "${container}" \
+    bcftools query -f '%CHROM\n' "${split_vcf}" | sort -u)
 
   [ "${chrom_check}" = "${chr}" ] || { echo "FAIL: Wrong chrom in ${chr}"; exit 1; }
 
-  split_format_count=$(singularity exec --bind /mnt/beegfs "${container}" bash -c \
-    "bcftools view -h '${split_vcf}' | grep '^##FORMAT=' | wc -l")
+  split_format_count=$(singularity exec --bind /mnt/beegfs "${container}" \
+    bcftools view -h "${split_vcf}" | grep '^##FORMAT=' | wc -l)
 
-  split_gt_count=$(singularity exec --bind /mnt/beegfs "${container}" bash -c \
-    "bcftools view -h '${split_vcf}' | grep '^##FORMAT=<ID=GT,' | wc -l")
+  split_gt_count=$(singularity exec --bind /mnt/beegfs "${container}" \
+    bcftools view -h "${split_vcf}" | grep '^##FORMAT=<ID=GT,' | wc -l)
 
   [ "${split_gt_count}" -eq 1 ] || { echo "FAIL: GT missing ${chr}"; exit 1; }
   [ "${split_format_count}" -eq 1 ] || { echo "FAIL: Extra FORMAT fields ${chr}"; exit 1; }
 
-  count=$(singularity exec --bind /mnt/beegfs "${container}" bash -c \
-    "bcftools view -H '${split_vcf}' | wc -l")
+  count=$(singularity exec --bind /mnt/beegfs "${container}" \
+    bcftools view -H "${split_vcf}" | wc -l)
 
   echo "${chr}: ${count} variants"
 
