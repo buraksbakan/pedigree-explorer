@@ -1,6 +1,6 @@
 ----------------------------------------
 STEP 1: Keep only GT FORMAT field
-Wed Apr 15 17:56:38 BST 2026
+Thu Apr 23 09:20:17 BST 2026
 ----------------------------------------
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
@@ -8,7 +8,7 @@ Written: pacbio.merged.clean.gt_only.vcf.gz
 
 ----------------------------------------
 VALIDATION: FORMAT cleanup
-Wed Apr 15 17:56:59 BST 2026
+Thu Apr 23 09:20:31 BST 2026
 ----------------------------------------
 PASS: File + index exist
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
@@ -17,7 +17,7 @@ PASS: Only GT present
 
 ----------------------------------------
 STEP 2: Split by chromosome
-Wed Apr 15 17:57:01 BST 2026
+Thu Apr 23 09:20:33 BST 2026
 ----------------------------------------
 Processing chr1...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
@@ -110,7 +110,7 @@ INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 
 ----------------------------------------
 VALIDATION: Split VCFs
-Wed Apr 15 17:58:41 BST 2026
+Thu Apr 23 09:22:03 BST 2026
 ----------------------------------------
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 Checking chr1...
@@ -118,135 +118,135 @@ INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr1: 569447 variants
+chr1: 394230 variants
 Checking chr2...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr2: 590126 variants
+chr2: 416978 variants
 Checking chr3...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr3: 504577 variants
+chr3: 355510 variants
 Checking chr4...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr4: 526284 variants
+chr4: 374742 variants
 Checking chr5...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr5: 453560 variants
+chr5: 320142 variants
 Checking chr6...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr6: 466815 variants
+chr6: 335233 variants
 Checking chr7...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr7: 435758 variants
+chr7: 301705 variants
 Checking chr8...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr8: 391564 variants
+chr8: 273102 variants
 Checking chr9...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr9: 333243 variants
+chr9: 231282 variants
 Checking chr10...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr10: 377646 variants
+chr10: 261061 variants
 Checking chr11...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr11: 386476 variants
+chr11: 265148 variants
 Checking chr12...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr12: 353436 variants
+chr12: 245299 variants
 Checking chr13...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr13: 289167 variants
+chr13: 207423 variants
 Checking chr14...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr14: 230245 variants
+chr14: 163074 variants
 Checking chr15...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr15: 219399 variants
+chr15: 158580 variants
 Checking chr16...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr16: 227345 variants
+chr16: 157422 variants
 Checking chr17...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr17: 202538 variants
+chr17: 143961 variants
 Checking chr18...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr18: 230220 variants
+chr18: 157963 variants
 Checking chr19...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr19: 165898 variants
+chr19: 114546 variants
 Checking chr20...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr20: 177609 variants
+chr20: 121138 variants
 Checking chr21...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr21: 114264 variants
+chr21: 77425 variants
 Checking chr22...
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-chr22: 113967 variants
+chr22: 77344 variants
 ----------------------------------------
-Filtered total: 7359584
-Split total:    7359584
+Filtered total: 5153308
+Split total:    5153308
 PASS: Split matches original
 ----------------------------------------

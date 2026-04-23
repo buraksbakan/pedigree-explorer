@@ -1,6 +1,6 @@
 ----------------------------------------
 STEP 1: PacBio VCF clean and merge
-Mon Apr 13 11:22:52 BST 2026
+Thu Apr 23 09:17:20 BST 2026
 Input folder: /mnt/beegfs/project/Alexey_Larionov/IBD-2026/data/raw/family_8/pb
 Merged output: pacbio.merged.clean.vcf.gz
 Threads used: 16
@@ -12,13 +12,13 @@ Processing: 2129544_Y429.GCA_000001405.deepvariant.phased
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 Raw stats written: 2129544_Y429.GCA_000001405.deepvariant.phased.raw.stats.txt
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-Writing to /tmp/bcftools.W87ZQ9
+Writing to /tmp/bcftools.3ooDrk
 Merging 2 temporary files
 Cleaning
 Done
 Clean VCF written: 2129544_Y429.GCA_000001405.deepvariant.phased.clean.vcf.gz
 Clean stats written: 2129544_Y429.GCA_000001405.deepvariant.phased.clean.stats.txt
-Mon Apr 13 11:23:27 BST 2026
+Thu Apr 23 09:17:55 BST 2026
 
 ----------------------------------------
 Processing: 2129547_Y430.GCA_000001405.deepvariant.phased
@@ -26,32 +26,32 @@ Processing: 2129547_Y430.GCA_000001405.deepvariant.phased
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 Raw stats written: 2129547_Y430.GCA_000001405.deepvariant.phased.raw.stats.txt
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-Writing to /tmp/bcftools.q7vQOI
+Writing to /tmp/bcftools.z4WNR4
 Merging 2 temporary files
 Cleaning
 Done
 Clean VCF written: 2129547_Y430.GCA_000001405.deepvariant.phased.clean.vcf.gz
 Clean stats written: 2129547_Y430.GCA_000001405.deepvariant.phased.clean.stats.txt
-Mon Apr 13 11:24:02 BST 2026
+Thu Apr 23 09:18:29 BST 2026
 
 ----------------------------------------
 STEP 2: Merge cleaned PacBio VCFs
-Mon Apr 13 11:24:02 BST 2026
+Thu Apr 23 09:18:29 BST 2026
 ----------------------------------------
 
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 Merged VCF written: pacbio.merged.clean.vcf.gz
-Mon Apr 13 11:24:31 BST 2026
+Thu Apr 23 09:18:59 BST 2026
 
 ----------------------------------------
 STEP COMPLETE
 Final file: pacbio.merged.clean.vcf.gz
-Mon Apr 13 11:24:31 BST 2026
+Thu Apr 23 09:18:59 BST 2026
 ----------------------------------------
 
 ----------------------------------------
 VALIDATION
-Mon Apr 13 11:24:31 BST 2026
+Thu Apr 23 09:18:59 BST 2026
 ----------------------------------------
 Samples:
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
@@ -108,6 +108,6 @@ INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
 0
 ----------------------------------------
 Validation complete
-Mon Apr 13 11:25:30 BST 2026
+Thu Apr 23 09:19:57 BST 2026
 ----------------------------------------
 

@@ -34,7 +34,7 @@ set -e
 
 # Folders and files
 base_folder="/mnt/beegfs/project/Alexey_Larionov/IBD-2026"
-perl_script="${base_folder}/github_repo/pedigree-explorer/Scripts/preprocessing/Perl/add-map-plink.pl"
+perl_script="${base_folder}/github_repo/pedigree-explorer/pipeline/scripts/Perl/add-map-plink.pl"
 container="${base_folder}/github_repo/pedigree-explorer/pipeline/config/Simple_Container.sif"
 
 # Main IHCAPX8 Illumina preprocessing folder

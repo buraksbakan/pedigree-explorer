@@ -1,6 +1,6 @@
 ----------------------------------------
 STEP 1: Add genetic map to PLINK BIM
-Mon Apr 13 14:00:40 BST 2026
+Thu Apr 23 09:45:04 BST 2026
 Input BIM: IHCAPX8_clean.bim
 Output BIM: IHCAPX8_clean_mapped.bim
 Perl script: add-map-plink.pl
@@ -38706,7 +38706,7 @@ BED and FAM copied
 
 ----------------------------------------
 STEP 2: Convert mapped PLINK back to VCF
-Mon Apr 13 14:01:14 BST 2026
+Thu Apr 23 09:45:38 BST 2026
 ----------------------------------------
 
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
@@ -38719,8 +38719,8 @@ Options in effect:
   --out /mnt/beegfs/project/Alexey_Larionov/IBD-2026/data/processed/IHCAPX8_Illumina_Preprocessing/plink/mapped_plink_vcf/IHCAPX8_clean_mapped_raw
   --threads 16
 
-Start time: Mon Apr 13 14:01:14 2026
-128218 MiB RAM detected, ~126126 available; reserving 64109 MiB for main
+Start time: Thu Apr 23 09:45:38 2026
+128218 MiB RAM detected, ~126122 available; reserving 64109 MiB for main
 workspace.
 Using up to 16 threads (change this with --threads).
 3 samples (0 females, 0 males, 3 ambiguous; 3 founders) loaded from
@@ -38731,9 +38731,9 @@ Note: No phenotype data present.
 --export vcf bgz to
 /mnt/beegfs/project/Alexey_Larionov/IBD-2026/data/processed/IHCAPX8_Illumina_Preprocessing/plink/mapped_plink_vcf/IHCAPX8_clean_mapped_raw.vcf.gz
 ... 0%0%1%1%2%2%3%3%4%4%5%5%6%6%7%7%8%8%9%9%10%10%11%11%12%12%13%13%14%14%15%15%16%16%17%17%18%18%19%19%20%20%21%21%22%22%23%23%24%24%25%25%26%26%27%27%28%28%29%29%30%30%31%31%32%32%33%33%34%34%35%35%36%36%37%37%38%38%39%39%40%40%41%41%42%42%43%43%44%44%45%45%46%46%47%47%48%48%49%50%50%51%51%52%52%53%53%54%54%55%55%56%56%57%57%58%58%59%59%60%60%61%61%62%62%63%63%64%64%65%65%66%66%67%67%68%68%69%69%70%70%71%71%72%72%73%73%74%74%75%75%76%76%77%77%78%78%79%79%80%80%81%81%82%82%83%83%84%84%85%85%86%86%87%87%88%88%89%89%90%90%91%91%92%92%93%93%94%94%95%95%96%96%97%97%98%98%99%done.
-End time: Mon Apr 13 14:01:16 2026
+End time: Thu Apr 23 09:45:40 2026
 INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
-Writing to /tmp/bcftools.ptHwUR
+Writing to /tmp/bcftools.auctnR
 Merging 2 temporary files
 Cleaning
 Done
@@ -38741,7 +38741,7 @@ Mapped VCF written: IHCAPX8_clean_mapped.vcf.gz
 
 ----------------------------------------
 VALIDATION
-Mon Apr 13 14:01:32 BST 2026
+Thu Apr 23 09:45:56 BST 2026
 ----------------------------------------
 Checking mapped BED and FAM...
 PASS: BED and FAM copied
@@ -38774,6 +38774,6 @@ PASS: Sorted mapped VCF CSI index found
 
 ----------------------------------------
 STEP COMPLETE: Genetic map added
-Mon Apr 13 14:01:36 BST 2026
+Thu Apr 23 09:46:00 BST 2026
 ----------------------------------------
 
