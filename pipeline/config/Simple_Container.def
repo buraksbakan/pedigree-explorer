@@ -2,27 +2,29 @@ Bootstrap: docker
 From: ubuntu:22.04
 
 %labels
- 	Author Cameron Brown
-	Description Portable container for bcftools, PLINK2, IBIS, and RaPID
-%post
-	set -e
-	export DEBIAN_FRONTEND=noninteractive
+    Author Cameron Brown
+    Description Portable container for bcftools, PLINK2, IBIS, and RaPID
 
-	apt-get update && apt-get install -y \
-        	bcftools \
-        	build-essential \
-        	ca-certificates \
-        	curl \
-        	git \
-        	perl \
-        	python3 \
-        	python3-pip \
-        	unzip \
-        	wget \
-        	zlib1g-dev \
-    	&& apt-get clean \
-    	&& rm -rf /var/lib/apt/lists/*
-# ----------------------------
+%post
+    set -e
+    export DEBIAN_FRONTEND=noninteractive
+
+    apt-get update && apt-get install -y \
+        bcftools \
+        build-essential \
+        ca-certificates \
+        curl \
+        git \
+        perl \
+        python3 \
+        python3-pip \
+        unzip \
+        wget \
+        zlib1g-dev \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/*
+
+    # ----------------------------
     # Install PLINK2
     # ----------------------------
     cd /opt
@@ -51,9 +53,36 @@ From: ubuntu:22.04
     chmod +x /opt/RaPID/RaPID_v.1.7 || true
     ln -s /opt/RaPID/RaPID_v.1.7 /usr/local/bin/RaPID_v1.7
     chmod +x /opt/RaPID/filter_mapping_file.py /opt/RaPID/interpolate_loci.py || true
-%environment
-	export PATH=/usr/local/bin:$PATH
-	export LC_ALL=C
-%runscript
-	exec "$@"
 
+    # ----------------------------
+    # Record installed versions
+    # ----------------------------
+    echo "===== TOOL VERSIONS ====="
+
+    echo "bcftools:"
+    bcftools --version | head -n 1
+
+    echo ""
+    echo "Perl:"
+    perl -v | head -n 2
+
+    echo ""
+    echo "PLINK2:"
+    plink2 --version 2>&1 | head -n 1 || true
+
+    echo ""
+    echo "IBIS commit:"
+    cd /opt/ibis && git rev-parse HEAD || true
+
+    echo ""
+    echo "RaPID commit:"
+    cd /opt/RaPID && git rev-parse HEAD || true
+
+    echo "===== END ====="
+
+%environment
+    export PATH=/usr/local/bin:$PATH
+    export LC_ALL=C
+
+%runscript
+    exec "$@"
