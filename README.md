@@ -1,6 +1,6 @@
 # Pedigree-Explorer
 
-## Overview
+## Overview 
 
 A framework for detection and visualisation of identical-by-descent regions in human familial sequencing data
 
