@@ -251,3 +251,26 @@ qsub 02_PacBio_Split.sh
 ```
 
 ---
+## Expected Output Directory Structure
+
+After running all scripts, your `data/processed/` directory will contain:
+
+```
+data/processed/
+├── Illumina_Preprocessing/
+│   ├── clean_vcf/
+│   ├── plink/
+│   │   ├── final_plink_files/
+│   │   ├── mapped_plink_files/
+│   │   └── mapped_plink_vcf/
+│   ├── genetic_map/
+│   └── stats/
+└── PacBio_Preprocessing/
+    ├── clean_vcf/
+    ├── merged_vcf/
+    ├── filtered_for_split/
+    ├── split/
+    ├── counts/
+    └── stats/
+```
+
