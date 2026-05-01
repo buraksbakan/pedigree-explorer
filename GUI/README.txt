@@ -14,6 +14,6 @@ TRUFFLE:
 - [TRUFFLE_PPD_2WAY_79_86] -> Platinum pedigree data, 2 way comparisons (samples 12879 and 12886)
 - [TRUFFLE_PPD_2WAY_79_82] -> Platinum pedigree data, 2 way comparisons (samples 12879 and 12882)
 
-RaPID
+RaPID:
 - [RAPID_FD_2WAY] -> Family data, 2 way comparison
 - [RAPID_PPD_2WAY] -> Platinum pedigree data, 2 way comparion
