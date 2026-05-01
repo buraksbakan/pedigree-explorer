@@ -18,3 +18,9 @@ TRUFFLE:
 RaPID:
 - [RAPID_FD_2WAY] -> Family data, 2 way comparison
 - [RAPID_PPD_2WAY] -> Platinum pedigree data, 2 way comparion
+
+## Installation
+Download Prerelease 0.1
+Unzip gene locations file
+Deposit main.exe into the gene location file
+Double click to run
