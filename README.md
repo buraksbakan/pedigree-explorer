@@ -106,30 +106,30 @@ pedigree-explorer/
 │   ├── config/                     # Singularity container definitions
 │   └── examples/
 │
-├── IBD_Analysis/                   # IBD detection tools
-│   ├── IBIS/
-│   │   ├── README.md
-│   │   └── Scripts/
-│   ├── TRUFFLE/
-│   │   ├── README.md
-│   │   └── Scripts/
-│   └── RaPID/
-│       ├── README.md
-│       └── Scripts/
+├── IBIS/                           # IBIS IBD detection
+│   ├── README.md
+│   └── Scripts/
+│
+├── TRUFFLE/                        # TRUFFLE IBD detection
+│   ├── README.md
+│   └── Scripts/
+│
+├── RaPID/                          # RaPID IBD detection
+│   ├── README.md
+│   └── Scripts/
 │
 ├── GUI/                            # PyQt5 visualisation application
 │   ├── README.md
-│   ├── Usr Manual.pdf
+│   ├── User_Manual.pdf
 │   ├── Scripts/
-│   ├── images/
+│   ├── images/                     # Example screenshots per tool
 │   │   ├── ibis/
 │   │   ├── rapid/
 │   │   └── truffle/
-│   └── data/
+│   └── data/                       # Example BED files per tool
 │       ├── ibis/
 │       ├── rapid/
 │       └── truffle/
-│
 │
 ├── docs/                           # Project documentation
 │   ├── methods.md
@@ -193,7 +193,7 @@ Three IBD detection tools are applied to the preprocessed data, each suited to d
 
 IBIS detects IBD regions by scanning the genome for contiguous regions of high IBS between pairs of individuals, using a window-based approach that tolerates limited mismatches. Three parameter configurations are tested: **sensitive**, **literature-recommended (Seidman et al., 2020)**, and **strict**.
 
-See [IBD_Analysis/IBIS/README.md](IBD_Analysis/IBIS/README.md) for full documentation.
+See [IBIS/README.md](IBIS/README.md) for full documentation.
 
 ### TRUFFLE
 
@@ -203,7 +203,7 @@ See [IBD_Analysis/IBIS/README.md](IBD_Analysis/IBIS/README.md) for full document
 
 TRUFFLE detects IBD by identifying long stretches of consecutive IBS markers between pairs of individuals. It does not require haplotype phasing or a population genetic map, making it suitable for rapid deployment across populations. Parameter optimisation (`-L` length multiplier and `--ibs1markers`/`--ibs2markers` thresholds) is required for distant relatives in WGS data.
 
-See [IBD_Analysis/TRUFFLE/README.md](IBD_Analysis/TRUFFLE/README.md) for full documentation.
+See [TRUFFLE/README.md](TRUFFLE/README.md) for full documentation.
 
 ### RaPID
 
@@ -213,7 +213,7 @@ See [IBD_Analysis/TRUFFLE/README.md](IBD_Analysis/TRUFFLE/README.md) for full do
 
 RaPID detects IBD using a positional Burrows-Wheeler transform (PBWT) approach on phased data. In this project, RaPID is applied to PacBio long-read data after splitting into per-chromosome VCFs.
 
-See [IBD_Analysis/RaPID/README.md](IBD_Analysis/RaPID/README.md) for full documentation.
+See [RaPID/README.md](RaPID/README.md) for full documentation.
 
 ---
 
@@ -248,7 +248,7 @@ The GUI expects four-column BED files:
 chromosome  start_bp  end_bp  sample_pair_name
 ```
 
-Conversion scripts are provided in each IBD tool's folder (`IBD_Analysis/IBIS/`, `IBD_Analysis/TRUFFLE/`, `IBD_Analysis/RaPID/`) to convert tool-specific output formats (`.segments`, `.seg`) into this BED format.
+Conversion scripts are provided in each IBD tool's folder (`IBIS/`, `TRUFFLE/`, `RaPID/`) to convert tool-specific output formats (`.segments`, `.seg`) into this BED format.
 
 ### Documentation
 
