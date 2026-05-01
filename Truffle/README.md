@@ -112,13 +112,6 @@ qsub truffle_default.sh
 
 Tests TRUFFLE across multiple `-L` values (1.0, 1.5, 2.0, 2.5, 3.0). The `-L` parameter is a **length multiplier** applied to TRUFFLE's default minimum segment lengths:
 
-| `-L` value | IBD1 minimum | IBD2 minimum | Behavior |
-|------------|--------------|--------------|----------|
-| 1.0 *(default)* | 5 Mb | 2 Mb | Most relaxed |
-| 1.5 | 7.5 Mb | 3 Mb | Moderately strict |
-| 2.0 | 10 Mb | 4 Mb | Strict |
-| 3.0 | 15 Mb | 6 Mb | Very strict |
-
 **Higher L = more stringent detection**, fewer segments reported.
 
 **Edit the USER INPUTS section:**
@@ -266,15 +259,6 @@ This metric enables direct comparison with theoretical kinship values:
 ---
 
 ## Important Notes
-
-### IBD1 / IBD2 Reporting Convention
-
-TRUFFLE reports IBD1 and IBD2 segments based on independent IBS scans. Because IBS2 (both alleles matching) is mathematically a subset of IBS1 (at least one allele matching), **IBD2 segments are nested within IBD1 segments** in TRUFFLE's output rather than being mutually exclusive. This means summing IBD1 + IBD2 segment lengths technically double-counts the IBD2 region. This convention follows the original TRUFFLE publication (Dimitromanolakis et al., 2019) for direct comparison with reference IBD detection methods.
-
-For datasets without IBD2 (e.g., distant relatives), this is not an issue. For close relatives where IBD2 is substantial, consider whether you want to:
-- Sum naively (TRUFFLE convention)
-- Apply overlap correction (subtract IBD2 from IBD1 first)
-- Use the kinship coefficient: 0.5 × IBD1_only + 1.0 × IBD2
 
 ### Detection Power Limitations
 
