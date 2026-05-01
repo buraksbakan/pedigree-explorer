@@ -6,6 +6,14 @@
 
 ---
 
+## Abstract
+
+Identification of shared chromosomal regions between related individuals is fundamental for understanding inheritance patterns and identifying genetic factors underlying hereditary disease. The Pedigree Explorer project develops an end-to-end pipeline for detection and visualisation of identity-by-descent (IBD) regions in human familial sequencing data. Three IBD detection tools — **IBIS**, **TRUFFLE**, and **RaPID** — are integrated into a containerised pipeline supporting both un-phased short-read (Illumina) and block-phased long-read (PacBio) data. A custom PyQt5 GUI enables intuitive visualisation of detected IBD segments on chromosome ideograms, with three-way overlap detection to identify regions shared across multiple sample pairs.
+
+The framework was validated on the publicly available Platinum Pedigree Data (PPD) and applied to a urothelial cancer case study comprising three related individuals with familial bladder cancer. Results demonstrate successful IBD detection across relationship classes — from full siblings (~50% expected) to second cousins once removed (~1.56% expected) — providing a reproducible workflow for hereditary disease gene mapping.
+
+---
+
 ## Table of Contents
 
 1. [Introduction](#introduction)
@@ -111,8 +119,17 @@ pedigree-explorer/
 │
 ├── GUI/                            # PyQt5 visualisation application
 │   ├── README.md
-│   ├── src/
-│   └── docs/
+│   ├── Usr Manual.pdf
+│   ├── Scripts/
+│   ├── images/
+│   │   ├── ibis/
+│   │   ├── rapid/
+│   │   └── truffle/
+│   └── data/
+│       ├── ibis/
+│       ├── rapid/
+│       └── truffle/
+│
 │
 ├── docs/                           # Project documentation
 │   ├── methods.md
@@ -202,26 +219,26 @@ See [IBD_Analysis/RaPID/README.md](IBD_Analysis/RaPID/README.md) for full docume
 
 ## GUI
 
-The **Pedigree Explorer GUI** is a PyQt5-based desktop application for visualising IBD segments detected by IBIS, TRUFFLE, and RaPID. It accepts BED files as input and renders detected IBD regions on a chromosome ideogram with cytoband annotations.
+The **Pedigree Explorer GUI** (IBDogram Viewer) is a PyQt5-based desktop application for visualising IBD segments detected by IBIS, TRUFFLE, and RaPID. It accepts BED files as input and renders detected IBD regions on a chromosome ideogram with cytoband annotations.
 
 ### Features
 
-- **Chromosome ideogram** with cytoband display (toggleable)
-- **BED file loading** and tabular display
-- **Three-way overlap detection** — identifies regions shared across all three pairs in a trio
-- **Region zoom popup** with gene annotations from RefSeq
-- **Image export** — save ideograms as PNG
-- **Multi-file support** — load multiple BED files for comparison across tools or configurations
+- **Chromosome ideogram** with toggleable cytoband display (centromeres shown in grey)
+- **BED file loading** with automatic ideogram population
+- **Pairwise IBD segments table** — click any row to open a region popup with gene annotations
+- **Three-way overlap detection** — identifies regions shared across all three pairwise comparisons in a trio
+- **File summary box** — displays filename, number of IBD segments, and number of comparisons
+- **Highlight dropdown** — focus the ideogram on a specific pairwise comparison
+- **Region popup** — zoomed region view with gene table (gene name, location, Ensembl ID), customisable colours, and CSV export
+- **Image export** — save ideograms and region diagrams as PNG
 
 ### Quick Start
 
-```bash
-# Install dependencies
-pip install -r GUI/requirements.txt
-
-# Run the GUI
-python GUI/src/main.py
-```
+1. Download the executable file and BED files of chromosomal gene coordinates from the GitHub repository (both must be in the same folder)
+2. Launch the executable (loading may take up to 30 seconds depending on system specifications)
+3. Click **File → Open File** to load a BED file
+4. The ideogram will automatically populate with regions from the BED file
+5. Save ideograms via **File → Save Image** or the save icon in the ideogram toolbar
 
 ### Input Format
 
@@ -231,9 +248,12 @@ The GUI expects four-column BED files:
 chromosome  start_bp  end_bp  sample_pair_name
 ```
 
-Conversion scripts are provided in each IBD tool's folder to convert tool-specific output formats (`.segments`, `.seg`) into this BED format.
+Conversion scripts are provided in each IBD tool's folder (`IBD_Analysis/IBIS/`, `IBD_Analysis/TRUFFLE/`, `IBD_Analysis/RaPID/`) to convert tool-specific output formats (`.segments`, `.seg`) into this BED format.
 
-See [GUI/README.md](GUI/README.md) for full documentation including building standalone executables.
+### Documentation
+
+-  [GUI/README.md](GUI/README.md) — Setup instructions, dependencies, and developer notes
+-  [GUI/User_Manual.pdf](GUI/User_Manual.pdf) — Complete user manual with screenshots and feature walkthroughs
 
 ---
 
