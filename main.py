@@ -3,17 +3,15 @@ import os
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QPushButton, QFileDialog, QVBoxLayout,
     QWidget, QMessageBox, QTableWidget, QTableWidgetItem, QHBoxLayout, QComboBox, 
-    QColorDialog, QStatusBar, QInputDialog, QDialog, QCheckBox, QLabel, QGroupBox, 
-    QSizePolicy, QHeaderView, QAbstractItemView
+    QColorDialog, QStatusBar, QDialog, QCheckBox, QLabel, QGroupBox, 
+    QSizePolicy, QAbstractItemView
 )
-from PyQt6.QtCore import Qt, pyqtSignal, QUrl, QTimer, QSize, QEventLoop
+from PyQt6.QtCore import Qt, pyqtSignal, QTimer
 from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings
-from PyQt6.QtPdf import QPdfDocument
-from PyQt6.QtGui import QImageIOHandler, QPixmap, QImage, QPainter
 import plotly.graph_objects as go
 from collections import defaultdict
 import webbrowser
+import re
 
 # Ideogram imports
 import matplotlib
@@ -23,13 +21,7 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 from matplotlib.figure import Figure
 from matplotlib.patches import Patch, Rectangle
 import pyideogram
-# import pickle, lzma
-# from importlib import resources
-
-
-
-
-#data = pkgutil.get_data("IBD_Viewer", "resources/ensembls_bed/chr1.bed")
+from itertools import combinations
 
 
 def resource_path(relative_path):
@@ -37,45 +29,6 @@ def resource_path(relative_path):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
-
-# def resource_path(relative_path):
-#     """Return absolute path to resource, works for dev and PyInstaller."""
-#     if hasattr(sys, "_MEIPASS"):
-#         # Running inside PyInstaller bundle
-#         base_path = sys._MEIPASS
-#     else:
-#         # Running normally
-#         base_path = os.path.abspath(".")
-
-#     return os.path.join(base_path, relative_path)
-
-
-# def resource_path(relative_path):
-#     """
-#     Returns the correct absolute path to a resource, whether running
-#     from source or from a PyInstaller bundle. Searches both the normal
-#     location and the _internal fallback.
-#     """
-#     # Base path inside PyInstaller bundle
-#     if hasattr(sys, '_MEIPASS'):
-#         base = sys._MEIPASS
-#     else:
-#         base = os.path.abspath(".")
-
-#     # First try the normal expected location
-#     normal_path = os.path.join(base, relative_path)
-#     if os.path.exists(normal_path):
-#         return normal_path
-
-#     # Then try the PyInstaller _internal location
-#     internal_path = os.path.join(base, "_internal", relative_path)
-#     if os.path.exists(internal_path):
-#         return internal_path
-
-#     # Last fallback: return the normal path anyway
-#     return normal_path
-
-#from plotly import graph_objs as go
 
 # GRCh38 chromosome lengths (bp)
 _CHROM_LENGTHS_BP = {
@@ -94,7 +47,7 @@ _MAX_CHROM_LEN = max(_CHROM_LENGTHS_BP.values())
 _PLAIN_BAND_colorS = {
     "gneg": (0.92, 0.92, 0.92), "gpos25": (0.92, 0.92, 0.92),
     "gpos50": (0.92, 0.92, 0.92), "gpos75": (0.92, 0.92, 0.92),
-    "gpos100": (0.92, 0.92, 0.92), "acen": (0.75, 0.25, 0.25),
+    "gpos100": (0.92, 0.92, 0.92), "acen": (0.4, 0.4, 0.4),
     "gvar": (0.92, 0.92, 0.92), "stalk": (0.92, 0.92, 0.92),
 }
 
@@ -114,7 +67,7 @@ class IdeogramPlot(QWidget):
 
     def __init__(self):
         super().__init__()
-        print("IDEO INIT", id(self))
+        #print("IDEO INIT", id(self))
 
         self.all_regions = [] 
 
@@ -152,14 +105,16 @@ class IdeogramPlot(QWidget):
     # ── public API (called from MainWindow) ────────────────────────────
     def set_regions(self, chrom_dict, headers):
         """Replaces the region list with a new dataset and refreshes the plot"""
-        print("SET_REGIONS CALLED")
+        #print("SET_REGIONS CALLED")
+
         self.all_regions = [(chrom_dict, headers)]
         self.headers = headers
         self.update_plot()
 
     def update_plot(self):
         """Clears and redraws figure"""
-        print("UPDATE PLOT JUST RAN")
+        #print("UPDATE PLOT JUST RAN")
+
         self.figure.clear()
         if not self.all_regions:
             self.canvas.draw()
@@ -170,8 +125,8 @@ class IdeogramPlot(QWidget):
 
     def add_highlight(self, chrom, start, end, annotation_value=None):
         """Adds new highlighted genomic interval when table clicked to highlight list and triggers a plot redraw"""
-        #print("ADD HIGHLIGHT on", id(self))
-        print("ADD HIGHLIGHT", chrom, start, end, annotation_value)  # TEMP
+        #print("ADD HIGHLIGHT", chrom, start, end, annotation_value)
+
         self.highlights.append((chrom, start, end, annotation_value))
         self.update_plot()
 
@@ -192,8 +147,8 @@ class IdeogramPlot(QWidget):
 
     def draw_overview(self):
         """Draws multi-chromosomal ideogram view with cytobands, highlighted BED regions and annotation legend"""
-        # Collect chromosomes from data
-        print("DRAW OVERVIEW HAPPENS NOW")
+        #print("DRAW OVERVIEW HAPPENS NOW")
+
         chroms = set()
         for chrom_dict, _ in self.all_regions:
             chroms.update(chrom_dict.keys())
@@ -408,7 +363,7 @@ class RegionPopup(QDialog):
     def __init__(self, chrom, start, end, genes, intervals=None, parent=None):
         """Initalizes the popup window, builds the gene table, 
         interval controls, and renders the plot"""
-        print("Genes passed to popup:", genes)
+        #print("Genes passed to popup:", genes)
 
         super().__init__(parent)
         self.setWindowTitle(f"{chrom}:{start}-{end}")
@@ -464,17 +419,17 @@ class RegionPopup(QDialog):
         self.view = QWebEngineView()
 
         # color BUTTON
-        self.color_button = QPushButton("Change Region color")
+        self.color_button = QPushButton("Change Region Colour")
         self.color_button.clicked.connect(self.pick_region_color)
-        self.interval_color_button = QPushButton("Change Interval colors")
+        self.interval_color_button = QPushButton("Colour of three-way comparisons")
         self.interval_color_button.clicked.connect(self.pick_interval_colors)
 
         # SAVE BUTTON
-        self.export_gene_table_button = QPushButton("Export Gene Table")
+        self.export_gene_table_button = QPushButton("Save Gene Table")
         self.export_gene_table_button.clicked.connect(self.export_gene_table)
 
         # SHOW/UNSHOW GENE LABELS
-        self.show_genes_checkbox = QCheckBox("Show gene midpoints")
+        self.show_genes_checkbox = QCheckBox("Show all genes")
         self.show_genes_checkbox.setChecked(True)
         self.show_genes_checkbox.stateChanged.connect(self.on_show_genes_checkbox)
         self.show_all_genes = True
@@ -580,14 +535,18 @@ class RegionPopup(QDialog):
 
         # Distinct colors for intervals
         interval_colors = ["#1f77b4", "#2ca02c", "#ff7f0e", "#d62728", "#9467bd"]
-
         lane_width = 0.15
         lane_spacing = 0.05
 
-        for idx, (label, istart, iend) in enumerate(self.intervals):
-            color = self.interval_colors[idx]
+        for idx, item in enumerate(self.intervals):
+            # Accept both (label, start, end) and (label, (start, end))
+            if len(item) == 3 and not isinstance(item[1], tuple):
+                label, istart, iend = item
+            else:
+                label, (istart, iend) = item
 
-            # lane positioning
+            color = interval_colors[idx % len(interval_colors)]
+
             x0 = 0.2 + idx * (lane_width + lane_spacing)
             x1 = x0 + lane_width
 
@@ -600,7 +559,6 @@ class RegionPopup(QDialog):
                 line=dict(width=1, color=color)
             )
 
-            # fade above if interval extends upward
             if istart < start:
                 fig.add_shape(
                     type="rect",
@@ -611,7 +569,6 @@ class RegionPopup(QDialog):
                     line=dict(width=0)
                 )
 
-            # fade below if interval extends downward
             if iend > end:
                 fig.add_shape(
                     type="rect",
@@ -622,12 +579,19 @@ class RegionPopup(QDialog):
                     line=dict(width=0)
                 )
 
+
         legend_items = []
-        for idx, (label, istart, iend) in enumerate(self.intervals):
-            color = self.interval_colors[idx]
+        for idx, item in enumerate(self.intervals):
+            if len(item) == 3 and not isinstance(item[1], tuple):
+                label, istart, iend = item
+            else:
+                label, (istart, iend) = item
+
+            color = interval_colors[idx % len(interval_colors)]
             legend_items.append(
                 dict(name=label, marker=dict(color=color), mode="lines")
             )
+
 
         for item in legend_items:
             fig.add_trace(go.Scatter(
@@ -795,8 +759,6 @@ class BEDViewer(QWidget):
 
     def load_bed(self, file_path):
         """Read BED file, compute three-way overlaps, populate table, and emit regions."""
-        print("BED FILE LOADED")
-        print("BEDVIEWER load_bed CALLED WITH:", file_path)
 
         filename = os.path.basename(file_path)
 
@@ -817,12 +779,13 @@ class BEDViewer(QWidget):
         # Determine number of columns
         max_cols = max(len(row) for row in data)
 
-        # Build headers (generic but consistent)
-        
-        headers = ["chrom", "start", "end", "comparisons"] + [f"field{i}" for i in range(5, max_cols+1)]
+        # Build headers
+        headers = ["chrom", "start", "end", "comparisons"] + [
+            f"field{i}" for i in range(5, max_cols + 1)
+        ]
         self.headers = headers
 
-        # Pad all rows so they match header length
+        # Pad rows
         for row in data:
             while len(row) < len(headers):
                 row.append(None)
@@ -832,10 +795,8 @@ class BEDViewer(QWidget):
         self.table.setRowCount(len(data))
         self.table.setHorizontalHeaderLabels(headers)
 
-        # Hide all columns after the 4th (index 3)
         for col in range(4, len(headers)):
             self.table.setColumnHidden(col, True)
-
 
         for r, row in enumerate(data):
             for c, value in enumerate(row):
@@ -843,15 +804,13 @@ class BEDViewer(QWidget):
                 item.setFlags(item.flags() ^ Qt.ItemFlag.ItemIsEditable)
                 self.table.setItem(r, c, item)
 
-
         # Build chrom_dict for plotting
-        # Extract BED regions
-        chrom_dict = {}   # { "chr1": [ { "start":..., "end":..., "columns":[...] }, ... ], ... }
-
+        chrom_dict = {}
 
         for row in data:
-            chrom = row[0].strip().lower().replace("chr", "")
-            chrom = f"chr{chrom}"
+            # chrom = row[0].strip().lower().replace("chr", "")
+            # chrom = f"chr{chrom}"
+            chrom = self.normalize_chrom(row[0])
 
             try:
                 start = int(row[1])
@@ -865,61 +824,81 @@ class BEDViewer(QWidget):
                 "columns": row
             })
 
-        # Pre-populate with all autosomes (chr1–chr22)
+        # Pre-populate autosomes
         for i in range(1, 23):
-            chrom = f"chr{i}"
-            chrom_dict.setdefault(chrom, [])
-
+            chrom_dict.setdefault(f"chr{i}", [])
 
         # Group regions by chromosome
-        by_chrom = defaultdict(list)  # chrom -> list of (start, end, annot)
+        from collections import defaultdict
+        by_chrom = defaultdict(list)
 
         for row in data:
             if len(row) >= 4:
-                chrom = row[0].strip().lower().replace("chr", "")
-                chrom = f"chr{chrom}"
+                # chrom = row[0].strip().lower().replace("chr", "")
+                # chrom = f"chr{chrom}"
+                chrom = self.normalize_chrom(row[0])
 
                 try:
                     start = int(row[1])
                     end = int(row[2])
                 except ValueError:
                     continue
+
                 annot = row[3]
                 by_chrom[chrom].append((start, end, annot))
+
+        # -------------------------------
+        # ROBUST 3-WAY OVERLAP DETECTION
+        # -------------------------------
+
+        from itertools import combinations
+
+        def merge_intervals(intervals):
+            if not intervals:
+                return []
+            intervals = sorted(intervals)
+            merged = [intervals[0]]
+            for s, e in intervals[1:]:
+                ls, le = merged[-1]
+                if s <= le:
+                    merged[-1] = (ls, max(le, e))
+                else:
+                    merged.append((s, e))
+            return merged
 
         three_way_overlaps = []
 
         for chrom, regions in by_chrom.items():
-            n = len(regions)
-            # brute-force triple combinations: fine for typical BED sizes
-            for i in range(n):
-                for j in range(i + 1, n):
-                    for k in range(j + 1, n):
-                        (s1, e1, a1) = regions[i]
-                        (s2, e2, a2) = regions[j]
-                        (s3, e3, a3) = regions[k]
+            # Group by annotation
+            annot_groups = defaultdict(list)
+            for start, end, annot in regions:
+                annot_groups[annot].append((start, end))
 
-                        # need three distinct annotations (e.g. a-b, b-c, a-c)
-                        if len({a1, a2, a3}) < 3:
-                            continue
+            # Merge intervals within each annotation
+            merged = {
+                annot: merge_intervals(iv_list)
+                for annot, iv_list in annot_groups.items()
+            }
 
-                        overlap_start = max(s1, s2, s3)
-                        overlap_end   = min(e1, e2, e3)
+            # All combinations of 3 annotation labels
+            for a1, a2, a3 in combinations(merged.keys(), 3):
+                iv1 = merged[a1]
+                iv2 = merged[a2]
+                iv3 = merged[a3]
 
-                        if overlap_start < overlap_end:
-                            interval_list = [
-                                (a1, s1, e1),
-                                (a2, s2, e2),
-                                (a3, s3, e3)
-                            ]
+                # Brute-force over merged intervals
+                for s1, e1 in iv1:
+                    for s2, e2 in iv2:
+                        for s3, e3 in iv3:
+                            overlap_start = max(s1, s2, s3)
+                            overlap_end   = min(e1, e2, e3)
+                            if overlap_start < overlap_end:
+                                three_way_overlaps.append(
+                                    (chrom, overlap_start, overlap_end,
+                                    [(a1, s1, e1), (a2, s2, e2), (a3, s3, e3)])
+                                )
 
-                            three_way_overlaps.append(
-                                (chrom, overlap_start, overlap_end, interval_list)
-                            )
-
-
-        # deduplicate
-        # dedupe by (chrom, start, end) but keep interval lists
+        # Deduplicate by (chrom, start, end)
         unique = {}
         for chrom, s, e, intervals in three_way_overlaps:
             key = (chrom, s, e)
@@ -931,24 +910,31 @@ class BEDViewer(QWidget):
             for (chrom, s, e) in unique
         ]
 
-        # Build all_column_values for MainWindow
+        # Build all_column_values
         self.all_column_values = defaultdict(set)
-
         for row in data:
             for col_index, value in enumerate(row):
                 header = self.headers[col_index]
                 if value is not None:
                     self.all_column_values[header].add(value)
+        
+        for entry in self.three_way_overlaps:
+            print(entry)
 
 
-
-        # Emit regions to chromosome plot
+        # Emit to GUI
         self.regions_loaded.emit(chrom_dict, self.headers, data, filename)
-
-        # emit overlaps to mainwindow
         self.three_way_overlaps_found.emit(self.three_way_overlaps)
 
-        
+
+    def normalize_chrom(self, s):
+        s = s.strip()
+        s = s.lower()
+        s = re.sub(r"^chr", "", s)
+        s = re.sub(r"[^\w]", "", s)   # remove hidden unicode
+        return f"chr{s}"
+
+            
     
     def row_clicked(self, row, col):
         """"""
@@ -983,8 +969,8 @@ class MainWindow(QMainWindow):
 
         # annotations to color bed regions
         self.annotation_dropdown = QComboBox()
-        self.annotation_dropdown.addItem("No comparisons")
-        self.annotation_dropdown.addItem("All comparisons")
+        self.annotation_dropdown.addItem("Total IBD segments")
+        self.annotation_dropdown.addItem("All pairwise comparisons")
         self.annotation_dropdown.currentTextChanged.connect(self.annotation_selection_changed)
 
         # cytobands
@@ -999,11 +985,13 @@ class MainWindow(QMainWindow):
         self.overlap_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.overlap_table.cellClicked.connect(self.overlap_clicked)
         self.overlap_table.hide()
+        self.bed_viewer.three_way_overlaps_found.connect(self.update_overlap_visibility)
+
 
 
         # labels
-        self.pairwise_label = QLabel("Pairwise Comparisons Table (Click to zoom)")
-        self.overlap_label = QLabel("Three-way overlap tables (Click to zoom)")
+        self.pairwise_label = QLabel("Pairwise IBD Segments (Click to zoom)")
+        self.overlap_label = QLabel("Three-way IBD Overlaps (Click to zoom)")
         self.overlap_label.hide()
 
         self.summary_box = QGroupBox("File Summary")
@@ -1011,8 +999,8 @@ class MainWindow(QMainWindow):
         self.summary_box.setLayout(self.summary_layout)
 
         self.summary_filename = QLabel("File: -")
-        self.summary_rows = QLabel("Rows: -")
-        self.summary_total_comparisons = QLabel("Comparisons: -")
+        self.summary_rows = QLabel("Number of IBD segments: -")
+        self.summary_total_comparisons = QLabel("Comparison(s): -")
         self.summary_each_comparison = QLabel("")
 
         # Connect signal from BEDViewer
@@ -1113,8 +1101,8 @@ class MainWindow(QMainWindow):
 
         # file menu
         file_menu = menu.addMenu("File")
-        file_menu.addAction("Import File", self.bed_viewer.open_file)
-        file_menu.addAction("Export Image", self.export_image)
+        file_menu.addAction("Open File", self.bed_viewer.open_file)
+        file_menu.addAction("Save Image", self.export_image)
         file_menu.addAction("Quit", self.close)
 
         # help menu
@@ -1160,8 +1148,7 @@ class MainWindow(QMainWindow):
     def handle_regions_loaded(self, chrom_dict, headers, full_rows, filename):
         """Processes a loaded BED file, building value maps, updating dropdowns, 
         updating the summary field and sending regions to the ideogram to plot"""
-        
-        print("HANDLE REGIONS LOADED RAN, filename =", self.current_filename)
+        #print("HANDLE REGIONS LOADED RAN, filename =", self.current_filename)
 
         self.current_filename = filename
         self.headers = headers[:]   # store ordered list
@@ -1191,13 +1178,13 @@ class MainWindow(QMainWindow):
         self.summary_filename.setText(f"File: {self.current_filename}")
 
         # Number of rows
-        self.summary_rows.setText(f"Rows: {len(full_rows)}")
+        self.summary_rows.setText(f"Number of IBD segments: {len(full_rows)}")
 
         # Comparisons column
         comparisons = sorted(self.all_column_values["comparisons"])
 
         self.summary_total_comparisons.setText(
-            f"Comparisons: {len(comparisons)} ({', '.join(comparisons)})"
+            f"Comparison(s): {len(comparisons)} ({', '.join(comparisons)})"
         )
 
         # Count each comparison
@@ -1222,7 +1209,7 @@ class MainWindow(QMainWindow):
         #print("RESET ANNOTATION DROPDOWN JUST RAN")
         self.annotation_dropdown.blockSignals(True)
         self.annotation_dropdown.clear()
-        self.annotation_dropdown.addItem("No comparisons")
+        self.annotation_dropdown.addItem("Total IBD segments")
         self.annotation_dropdown.blockSignals(False)
 
 
@@ -1230,7 +1217,7 @@ class MainWindow(QMainWindow):
         """Updates comparison filter dropdown and colours by user selection"""
         #print("ANNOTATION SELECTION CHANGED JUST RAN")
 
-        if text == "No comparisons":
+        if text == "Total IBD segments":
             # Turn OFF color-by mode completely
             self.ideogram_plot.color_by_column = None
             self.ideogram_plot.current_annotation_filter = None
@@ -1239,7 +1226,7 @@ class MainWindow(QMainWindow):
             self.ideogram_plot.annotation_colors = {}
             self.ideogram_plot.color_index = 0
 
-        elif text == "All comparisons":
+        elif text == "All pairwise comparisons":
             # Turn color-by mode BACK ON using the last selected column
             if self.ideogram_plot.color_by_column is None:
                 # Restore the last chosen column
@@ -1258,10 +1245,11 @@ class MainWindow(QMainWindow):
     def update_annotation_dropdown(self, reset=True):
         """Updates the comparison filter dropdown with all comparison values upon loadout"""
         #print("UPDATE ANNOTATION DROPDOWN JUST RAN")
+
         self.annotation_dropdown.blockSignals(True)
         self.annotation_dropdown.clear()
-        self.annotation_dropdown.addItem("No comparisons")
-        self.annotation_dropdown.addItem("All comparisons")
+        self.annotation_dropdown.addItem("Total IBD segments")
+        self.annotation_dropdown.addItem("All pairwise comparisons")
 
         col = self.ideogram_plot.color_by_column
 
@@ -1270,7 +1258,7 @@ class MainWindow(QMainWindow):
                 self.annotation_dropdown.addItem(val)
 
         if reset:
-            self.annotation_dropdown.setCurrentText("No comparisons")
+            self.annotation_dropdown.setCurrentText("Total IBD segments")
 
         self.annotation_dropdown.blockSignals(False)
 
@@ -1279,8 +1267,7 @@ class MainWindow(QMainWindow):
     # previously open color by dialog, but dialog isnt needed now
     def apply_color_by_column(self, col):
         """Colours by comparison value, rebuilds comparison dropdown,
-        redraws the ideogram with the highlight and shows the overlap 
-        table depending on available comparison types"""
+        redraws the ideogram with the highlight """
 
         self.ideogram_plot.color_by_column = col
         self.last_color_by_column = col
@@ -1294,8 +1281,8 @@ class MainWindow(QMainWindow):
         # Populate annotation dropdown
         self.annotation_dropdown.blockSignals(True)
         self.annotation_dropdown.clear()
-        self.annotation_dropdown.addItem("No comparisons")
-        self.annotation_dropdown.addItem("All comparisons")
+        self.annotation_dropdown.addItem("Total IBD segments")
+        self.annotation_dropdown.addItem("All pairwise comparisons")
 
         for val in sorted(self.all_column_values[col]):
             self.annotation_dropdown.addItem(val)
@@ -1308,18 +1295,10 @@ class MainWindow(QMainWindow):
 
         # Now force dropdown selection AFTER plot redraw
 
-        self.annotation_dropdown.setCurrentText("All comparisons")
+        self.annotation_dropdown.setCurrentText("All pairwise comparisons")
         self.annotation_dropdown.blockSignals(False)
 
 
-        # Show overlap table if needed
-        values = self.all_column_values[col]
-        if {"A-B", "B-C", "A-C"}.issubset(values):
-            self.overlap_label.show()
-            self.overlap_table.show()
-        else:
-            self.overlap_label.hide()
-            self.overlap_table.hide()
 
     ####### CYTOBANDS #########
 
@@ -1354,10 +1333,19 @@ class MainWindow(QMainWindow):
         #self.resize_table_columns(self.bed_viewer.table)
         self.overlaps = normalized
 
+    def update_overlap_visibility(self, overlaps):
+        """Show or hide the overlap table based on whether overlaps exist."""
+        if overlaps:
+            self.overlap_label.show()
+            self.overlap_table.show()
+        else:
+            self.overlap_label.hide()
+            self.overlap_table.hide()
 
     def overlap_clicked(self, row, col):
         """Opens a region popup for the selected overlap"""
         #print("AN OVERLAP WAS CLICKED")
+
         # When user clicks an overlap row, show in popup.
         chrom, start, end, interval_list = self.overlaps[row]
         
@@ -1370,6 +1358,8 @@ class MainWindow(QMainWindow):
         popup = RegionPopup(chrom, start, end, genes=genes, intervals=interval_list, parent=self)
         popup.exec()
 
+
+##################### REGION POPUP ##################
 
     def open_region_popup(self, chrom, start, end):
         """Creates and displays a popup showing genes and intervals for the selected region"""
@@ -1389,7 +1379,8 @@ class MainWindow(QMainWindow):
 
     def get_genes_in_region(self, chrom, start, end):
         """Returns all genes whose coordiantes overlap the region"""
-        print("Get genes in region just ran")
+        #print("Get genes in region just ran")
+
         results = []
         for gstart, gend, gname, gid in self.gene_index.get(chrom, []):
             if not (gend < start or gstart > end):
@@ -1398,7 +1389,7 @@ class MainWindow(QMainWindow):
 
     def load_gene_annotations(self):
         """Loads per-chromosome gene BED files to build a searchable gene index"""
-        print("load_gene_annotations just ran")
+        #print("load_gene_annotations just ran")
 
         chroms = [f"chr{i}" for i in range(1, 23)] + ["chrX", "chrY"]
 
@@ -1406,7 +1397,7 @@ class MainWindow(QMainWindow):
             genes = []
 
             path = resource_path(f"resources/ensembl_bed/{chrom}.bed")
-            print("Loading gene file:", path, "Exists:", os.path.exists(path))
+            #print("Loading gene file:", path, "Exists:", os.path.exists(path))
 
             if not os.path.exists(path):
                 self.gene_index[chrom] = []
