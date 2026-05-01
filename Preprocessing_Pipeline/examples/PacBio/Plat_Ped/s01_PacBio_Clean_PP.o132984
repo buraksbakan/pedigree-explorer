@@ -1,0 +1,113 @@
+----------------------------------------
+STEP 1: PacBio VCF clean and merge
+Thu Apr 23 09:24:56 BST 2026
+Input folder: /mnt/beegfs/project/Alexey_Larionov/IBD-2026/data/raw/phased_platinum_vcfs_AL15Apr2026/
+Merged output: pacbio.merged.clean.vcf.gz
+Threads used: 16
+----------------------------------------
+
+----------------------------------------
+Processing: s200082_phased
+----------------------------------------
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Raw stats written: s200082_phased.raw.stats.txt
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Writing to /tmp/bcftools.K7uPii
+Merging 3 temporary files
+Cleaning
+Done
+Clean VCF written: s200082_phased.clean.vcf.gz
+Clean stats written: s200082_phased.clean.stats.txt
+Thu Apr 23 09:25:55 BST 2026
+
+----------------------------------------
+Processing: s200106_phased
+----------------------------------------
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Raw stats written: s200106_phased.raw.stats.txt
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Writing to /tmp/bcftools.1gsFpk
+Merging 3 temporary files
+Cleaning
+Done
+Clean VCF written: s200106_phased.clean.vcf.gz
+Clean stats written: s200106_phased.clean.stats.txt
+Thu Apr 23 09:26:53 BST 2026
+
+----------------------------------------
+STEP 2: Merge cleaned PacBio VCFs
+Thu Apr 23 09:26:53 BST 2026
+----------------------------------------
+
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Merged VCF written: pacbio.merged.clean.vcf.gz
+Thu Apr 23 09:27:54 BST 2026
+
+----------------------------------------
+STEP COMPLETE
+Final file: pacbio.merged.clean.vcf.gz
+Thu Apr 23 09:27:54 BST 2026
+----------------------------------------
+
+----------------------------------------
+VALIDATION
+Thu Apr 23 09:27:54 BST 2026
+----------------------------------------
+Samples:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+200082
+200106
+----------------------------------------
+Chromosomes present:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+chr1
+chr10
+chr11
+chr12
+chr13
+chr14
+chr15
+chr16
+chr17
+chr18
+chr19
+chr2
+chr20
+chr21
+chr22
+chr3
+chr4
+chr5
+chr6
+chr7
+chr8
+chr9
+----------------------------------------
+Indels:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Multiallelic sites:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+FILTER distribution:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+7359584 PASS
+----------------------------------------
+Variants with QUAL < 20:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Total variants:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+7359584
+----------------------------------------
+Missing genotypes:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Validation complete
+Thu Apr 23 09:29:26 BST 2026
+----------------------------------------
+

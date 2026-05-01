@@ -1,0 +1,113 @@
+----------------------------------------
+STEP 1: PacBio VCF clean and merge
+Thu Apr 23 09:17:20 BST 2026
+Input folder: /mnt/beegfs/project/Alexey_Larionov/IBD-2026/data/raw/family_8/pb
+Merged output: pacbio.merged.clean.vcf.gz
+Threads used: 16
+----------------------------------------
+
+----------------------------------------
+Processing: 2129544_Y429.GCA_000001405.deepvariant.phased
+----------------------------------------
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Raw stats written: 2129544_Y429.GCA_000001405.deepvariant.phased.raw.stats.txt
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Writing to /tmp/bcftools.3ooDrk
+Merging 2 temporary files
+Cleaning
+Done
+Clean VCF written: 2129544_Y429.GCA_000001405.deepvariant.phased.clean.vcf.gz
+Clean stats written: 2129544_Y429.GCA_000001405.deepvariant.phased.clean.stats.txt
+Thu Apr 23 09:17:55 BST 2026
+
+----------------------------------------
+Processing: 2129547_Y430.GCA_000001405.deepvariant.phased
+----------------------------------------
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Raw stats written: 2129547_Y430.GCA_000001405.deepvariant.phased.raw.stats.txt
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Writing to /tmp/bcftools.z4WNR4
+Merging 2 temporary files
+Cleaning
+Done
+Clean VCF written: 2129547_Y430.GCA_000001405.deepvariant.phased.clean.vcf.gz
+Clean stats written: 2129547_Y430.GCA_000001405.deepvariant.phased.clean.stats.txt
+Thu Apr 23 09:18:29 BST 2026
+
+----------------------------------------
+STEP 2: Merge cleaned PacBio VCFs
+Thu Apr 23 09:18:29 BST 2026
+----------------------------------------
+
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Merged VCF written: pacbio.merged.clean.vcf.gz
+Thu Apr 23 09:18:59 BST 2026
+
+----------------------------------------
+STEP COMPLETE
+Final file: pacbio.merged.clean.vcf.gz
+Thu Apr 23 09:18:59 BST 2026
+----------------------------------------
+
+----------------------------------------
+VALIDATION
+Thu Apr 23 09:18:59 BST 2026
+----------------------------------------
+Samples:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+2129544_Y429
+2129547_Y430
+----------------------------------------
+Chromosomes present:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+chr1
+chr10
+chr11
+chr12
+chr13
+chr14
+chr15
+chr16
+chr17
+chr18
+chr19
+chr2
+chr20
+chr21
+chr22
+chr3
+chr4
+chr5
+chr6
+chr7
+chr8
+chr9
+----------------------------------------
+Indels:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Multiallelic sites:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+FILTER distribution:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+5153308 PASS
+----------------------------------------
+Variants with QUAL < 20:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Total variants:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+5153308
+----------------------------------------
+Missing genotypes:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Validation complete
+Thu Apr 23 09:19:57 BST 2026
+----------------------------------------
+

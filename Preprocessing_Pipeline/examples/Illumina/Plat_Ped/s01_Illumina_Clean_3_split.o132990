@@ -1,0 +1,89 @@
+----------------------------------------
+STEP: Illumina VCF cleaning
+Thu Apr 23 09:47:07 BST 2026
+Input VCF: Illumina_Preprocessing_3_Split.vcf.gz
+Output VCF: illumina_clean_3_Split.vcf.gz
+Threads used: 16
+----------------------------------------
+
+Generating raw stats...
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Raw stats written: illumina.raw.stats.txt
+
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+Writing to /tmp/bcftools.dV7kii
+Merging 4 temporary files
+Cleaning
+Done
+Filtering, sorting and indexing complete
+Clean stats written: illumina.clean.stats.txt
+Thu Apr 23 09:49:22 BST 2026
+
+----------------------------------------
+STEP COMPLETE: Illumina VCF cleaned
+Output file: illumina_clean_3_Split.vcf.gz
+Thu Apr 23 09:49:22 BST 2026
+----------------------------------------
+
+----------------------------------------
+VALIDATION
+Thu Apr 23 09:49:22 BST 2026
+----------------------------------------
+Indels:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Multiallelic sites:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Chromosomes present:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+chr1
+chr10
+chr11
+chr12
+chr13
+chr14
+chr15
+chr16
+chr17
+chr18
+chr19
+chr2
+chr20
+chr21
+chr22
+chr3
+chr4
+chr5
+chr6
+chr7
+chr8
+chr9
+----------------------------------------
+FILTER distribution before:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+  73819 DRAGENIndelHardQUAL
+   2401 DRAGENIndelHardQUAL;LowDepth
+ 160208 DRAGENSnpHardQUAL
+  30968 DRAGENSnpHardQUAL;LowDepth
+  15451 LowDepth
+8180509 PASS
+     10 base_quality
+      2 base_quality;low_af;weak_evidence
+     20 base_quality;weak_evidence
+     22 low_af
+----------------------------------------
+FILTER distribution after:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+6061189 PASS
+----------------------------------------
+Variants with QUAL < 20:
+INFO:    underlay of /etc/localtime required more than 50 (93) bind mounts
+0
+----------------------------------------
+Validation complete
+Thu Apr 23 09:51:02 BST 2026
+----------------------------------------
+

@@ -1,3 +1,6 @@
+# macOS metadata
+.DS_Store
+
 # Data 
 data/
 
@@ -16,11 +19,13 @@ containers/
 
 *.sif
 
-#Logs
-Logs/
 
-*.o*
+#Logs
+
 *.e*
 *.log
+*.cr2-pbs
 
+#Old Pipeline
 
+pipeline/

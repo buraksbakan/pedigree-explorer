@@ -1,0 +1,117 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%labels
+    Author Cameron Brown
+    Description Portable container for bcftools 1.23.1, HTSlib 1.23.1, PLINK2, IBIS, and RaPID v1.7
+
+%post
+    set -e
+    export DEBIAN_FRONTEND=noninteractive
+
+    # ----------------------------
+    # Pinned versions
+    # ----------------------------
+    HTSLIB_VERSION=1.23.1
+    BCFTOOLS_VERSION=1.23.1
+    PLINK2_ZIP=plink2_linux_avx2_20260228.zip
+    IBIS_REF=1.20.9
+
+    # RaPID repo has no published releases; this leaves the repo checkout on master
+    # while exposing the documented RaPID_v.1.7 executable.
+    # If you later test a specific RaPID commit, replace "master" with that hash.
+    RAPID_REF=master
+
+    # ----------------------------
+    # System dependencies
+    # ----------------------------
+    apt-get update && apt-get install -y \
+        autoconf \
+        automake \
+        build-essential \
+        ca-certificates \
+        curl \
+        git \
+        libbz2-dev \
+        libcurl4-openssl-dev \
+        liblzma-dev \
+        perl \
+        python3 \
+        python3-pip \
+        unzip \
+        wget \
+        zlib1g-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+    # ----------------------------
+    # Install HTSlib
+    # ----------------------------
+    cd /opt
+    wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2
+    tar -xjf htslib-${HTSLIB_VERSION}.tar.bz2
+    cd htslib-${HTSLIB_VERSION}
+    ./configure --prefix=/usr/local
+    make
+    make install
+
+    # ----------------------------
+    # Install bcftools
+    # ----------------------------
+    cd /opt
+    wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2
+    tar -xjf bcftools-${BCFTOOLS_VERSION}.tar.bz2
+    cd bcftools-${BCFTOOLS_VERSION}
+    ./configure --prefix=/usr/local
+    make
+    make install
+
+    # ----------------------------
+    # Install PLINK2
+    # ----------------------------
+    cd /opt
+    curl -L -o plink2.zip https://s3.amazonaws.com/plink2-assets/alpha6/${PLINK2_ZIP}
+    unzip plink2.zip
+    mv plink2 /usr/local/bin/plink2
+    chmod +x /usr/local/bin/plink2
+    rm -f plink2.zip
+
+    # ----------------------------
+    # Install IBIS
+    # ----------------------------
+    cd /opt
+    git clone https://github.com/williamslab/ibis.git
+    cd /opt/ibis
+    git checkout ${IBIS_REF}
+    git submodule update --init --recursive
+    make
+    cp ibis /usr/local/bin/ibis
+    cp add-map-plink.pl /usr/local/bin/add-map-plink.pl
+    chmod +x /usr/local/bin/ibis /usr/local/bin/add-map-plink.pl
+
+    # ----------------------------
+    # Install RaPID
+    # ----------------------------
+    cd /opt
+    git clone https://github.com/ZhiGroup/RaPID.git
+    cd /opt/RaPID
+    git checkout ${RAPID_REF}
+    chmod +x RaPID_v.1.7
+    ln -sf /opt/RaPID/RaPID_v.1.7 /usr/local/bin/RaPID_v1.7
+    chmod +x filter_mapping_file.py interpolate_loci.py parameter_estimation.py || true
+
+    # ----------------------------
+    # Build log version checks
+    # ----------------------------
+    echo "===== INSTALLED TOOL VERSIONS ====="
+    /usr/local/bin/bcftools --version
+    /usr/local/bin/plink2 --version || true
+    /usr/local/bin/ibis || true
+    /usr/local/bin/RaPID_v1.7 || true
+
+%environment
+    export PATH=/usr/local/bin:$PATH
+    export LC_ALL=C
+
+%runscript
+    exec "$@"
