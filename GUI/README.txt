@@ -4,6 +4,7 @@ Scripts folder includes all versions of python script up to main.py, the most re
 
 ## Data and Images:
 Data folder holds BED files for use with GUI. Lenient parameters were used in the creation of all data present.
+Images follow the same naming conventions as the data.
 IBIS:
 - [IBIS_FD_3WAY] -> Family data, 3 way comparisons 
 - [IBIS_PPD_2WAY_79_86] -> Platinum pedigree data, 2 way comparisons (samples 12879 and 12886) 
