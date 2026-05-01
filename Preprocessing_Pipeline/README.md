@@ -273,4 +273,19 @@ data/processed/
     ├── counts/
     └── stats/
 ```
+## Notes
+
+- All scripts print a **VALIDATION** section at the end of each job. Check the scheduler output logs (`.o<jobid>` for PBS-style schedulers) to confirm steps completed successfully. Example logs are provided in `Preprocessing_Pipeline/examples/`.
+- `add-map-plink.pl` is sourced from the [IBIS repository](https://github.com/williamslab/ibis) and is included here for convenience.
+- Scripts use `--bind /mnt/beegfs` for Singularity/Apptainer. Replace this with your HPC storage path (e.g. `/scratch`, `/data`, `/home`) if different.
+
+---
+
+## Institution Details
+
+Cranfield University  
+Supervisor: Dr Alexey Larionov  
+Course Lead: Dr Maria Anastasiadi  
+Support staff: Sajad Falsafi Zadeh  
+Course: MSc Applied Bioinformatics 2025-26
 
