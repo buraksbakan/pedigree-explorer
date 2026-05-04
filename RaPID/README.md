@@ -22,8 +22,25 @@ random projections covers the agreed region.
 ```
 RaPID/
 ├── README.md                # This file
+├── rapid_env.yml            # Conda Environment used for running the script
 └── Scripts/
     └── s01_map_interpolating.sh             # Step 1: Interpolate genetic map to VCF sites
+    └── s02_rapid_3window_size.sh            # Step 2: Run RaPID across three different window sizes
 ```
 
 ---
+
+## Prerequisites
+
+- A `qsub`-compatible job scheduler (PBS, Torque, PBSPro, or equivalent) — tested on Crescent2 at Cranfield University
+- RaPID v1.7 (loaded via module system)
+- `python3` (for running s01_map_interpolating.sh)
+- `bedtools` (for sorting; loaded via module system)
+- `awk` (standard Linux utility)
+- Multi-sample, chromosome split, Block-phased GT-only PacBio VCFs — produced by the [preprocessing pipeline](../Preprocessing_Pipeline)
+- GRCh38 reference genetic maps - available from the RaPID GitHub repository
+
+
+
+
+
