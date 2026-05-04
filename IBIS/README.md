@@ -39,7 +39,7 @@ IBIS/
 - IBIS v1.20.9 (loaded via module system or installed locally)
 - `bedtools` (for sorting; loaded via module system)
 - `awk` (standard Linux utility)
-- PLINK binary input files (`.bed`, `.bim`, `.fam`) with genetic distances annotated in the `.bim` file — typically produced by the [preprocessing pipeline](../../Preprocessing_Pipeline)
+- PLINK binary input files (`.bed`, `.bim`, `.fam`) with genetic distances annotated in the `.bim` file — produced by the [preprocessing pipeline](../Preprocessing_Pipeline)
 
 ### Input File Requirements
 
