@@ -90,7 +90,26 @@ The script tests **three parameter configurations** to assess the effect of dete
 - **-o** — output prefix  
 
 **Note:** The lenient setting (**-w 500**) exceeds the 300-SNP maximum defined in the author-provided `parameter_estimation.py` script. Results obtained under this configuration should therefore be interpreted with caution, as they fall outside the developer-recommended range. However, in our analysis, this setting provided improved sensitivity for detecting longer IBD segments.
+---
+
+
+---
+## Citation
+
+If you use this pipeline, please cite the RaPID paper:
+
+> Naseri, A., Liu, X., Tang, K. et al. RaPID: ultra-fast, powerful, and accurate detection of segments identical by descent (IBD) in biobank-scale cohorts. Genome Biol 20, 143 (2019). https://doi.org/10.1186/s13059-019-1754-8.
+
+RaPID repository and genetic maps:  
+> https://github.com/ZhiGroup/RaPID
 
 ---
 
+## Institution Details
+
+Cranfield University  
+Supervisor: Dr Alexey Larionov  
+Course Lead: Dr Maria Anastasiadi  
+Support staff: Sajad Falsafi Zadeh  
+Course: MSc Applied Bioinformatics 2025-26
 
