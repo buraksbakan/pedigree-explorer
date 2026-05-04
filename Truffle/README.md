@@ -34,7 +34,7 @@ TRUFFLE/
 
 - A `qsub`-compatible job scheduler (PBS, Torque, PBSPro, or equivalent) — tested on Crescent2
 - Singularity or Apptainer
-- A built container (`.sif` file) containing TRUFFLE — see the [preprocessing pipeline](Preprocessing_Pipeline/README.md)
+- A built container (`.sif` file) containing TRUFFLE — see the [preprocessing pipeline](../Preprocessing_Pipeline/README.md)
 - A bgzipped, tabix-indexed multi-sample VCF (`.vcf.gz` + `.tbi`) — typically the output of the [preprocessing pipeline](Preprocessing_Pipeline/README.md)
 - `awk` (for BED conversion — standard Linux utility)
 
