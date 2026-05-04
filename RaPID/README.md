@@ -73,9 +73,24 @@ The script tests **three parameter configurations** to assess the effect of dete
 
 | Configuration | `-w` (window size) | `-r` (runs) | `-s`  (successes)| `-d` (min cM)| Use case |
 |---------------|---------------|-----------------|--------------|----------|----------|
-| **Strict** | 75 | 10 | 2 | 5 |Exploratory analysis; captures shorter segments at risk of background noise |
-| **Default** (literature-recommended) | 250 | 10 | 2 | 5 |Robust default for general relatedness estimation; from Seidman et al. (2020) |
-| **Lenient** | 500 | 10 | 2 | 5 |High-specificity analyses (validation, fine-mapping); may underestimate total sharing |
+| **Strict** | 75 | 10 | 2 | 5 |High-specificity detection; retains only the strongest, longest shared haplotypes |
+| **Default** (literature-recommended) | 250 | 10 | 2 | 5 |Balanced detection for general pedigree IBD analysis; based on the RaPID repository (ZhiGroup, 2019) |
+| **Lenient** | 500 | 10 | 2 | 5 |Exploratory analysis; maximises segment recovery at the cost of increased false positives; produces biology sensible results |
 
+---
+
+## RaPID flags explained:
+
+- **-w** — window size in markers; smaller windows increase sensitivity but may reduce specificity  
+- **-r** — number of independent random path cover iterations  
+- **-s** — minimum iterations that must agree for a segment call  
+- **-d** — minimum IBD segment length in cM  
+- **-i** — input VCF  
+- **-g** — interpolated genetic map file  
+- **-o** — output prefix  
+
+**Note:** The lenient setting (**-w 500**) exceeds the 300-SNP maximum defined in the author-provided `parameter_estimation.py` script. Results obtained under this configuration should therefore be interpreted with caution, as they fall outside the developer-recommended range. However, in our analysis, this setting provided improved sensitivity for detecting longer IBD segments.
+
+---
 
 
