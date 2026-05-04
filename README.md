@@ -203,7 +203,7 @@ See [IBIS/README.md](IBIS/README.md) for full documentation.
 
 TRUFFLE detects IBD by identifying long stretches of consecutive IBS markers between pairs of individuals. It does not require haplotype phasing or a population genetic map, making it suitable for rapid deployment across populations. Parameter optimisation (`-L` length multiplier and `--ibs1markers`/`--ibs2markers` thresholds) is required for distant relatives in WGS data.
 
-See [TRUFFLE/README.md](TRUFFLE/README.md) for full documentation.
+See [Truffle/README.md](TRUFFLE/README.md) for full documentation.
 
 ### RaPID
 
