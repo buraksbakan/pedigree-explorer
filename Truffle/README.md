@@ -34,8 +34,8 @@ TRUFFLE/
 
 - A `qsub`-compatible job scheduler (PBS, Torque, PBSPro, or equivalent) — tested on Crescent2
 - Singularity or Apptainer
-- A built container (`.sif` file) containing TRUFFLE — see the [main repo's container build instructions](../../Preprocessing_Pipeline/README.md#building-the-container)
-- A bgzipped, tabix-indexed multi-sample VCF (`.vcf.gz` + `.tbi`) — typically the output of the [preprocessing pipeline](../../Preprocessing_Pipeline)
+- A built container (`.sif` file) containing TRUFFLE — see the [preprocessing pipeline](Preprocessing_Pipeline/README.md)
+- A bgzipped, tabix-indexed multi-sample VCF (`.vcf.gz` + `.tbi`) — typically the output of the [preprocessing pipeline](Preprocessing_Pipeline/README.md)
 - `awk` (for BED conversion — standard Linux utility)
 
 ### Input File Requirements
@@ -43,7 +43,7 @@ TRUFFLE/
 TRUFFLE requires a **single multi-sample VCF** containing all individuals to be compared. The VCF should be:
 - bgzipped (`.vcf.gz`)
 - tabix-indexed (`.tbi`)
-- Filtered for autosomal biallelic SNPs (use the [preprocessing pipeline](../../Preprocessing_Pipeline))
+- Filtered for autosomal biallelic SNPs (use the [preprocessing pipeline](Preprocessing_Pipeline/README.md))
 - GRCh38 (or any consistent reference — TRUFFLE is reference-agnostic)
 
 ---
@@ -181,7 +181,7 @@ qsub truffle_ibs_marker_filter.sh
 
 ## Step 4 — Convert to BED (`truffle_to_bed.sh`)
 
-Converts TRUFFLE `.segments` output files to BED format suitable for genome browsers or the [Pedigree Explorer GUI](../../GUI). Optionally filters segments by minimum length to remove low-confidence calls.
+Converts TRUFFLE `.segments` output files to BED format suitable for GUI(GUI/README.txt). Optionally filters segments by minimum length to remove low-confidence calls.
 
 **Edit the USER INPUTS section:**
 
