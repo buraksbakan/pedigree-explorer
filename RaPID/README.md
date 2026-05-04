@@ -40,7 +40,22 @@ RaPID/
 - Multi-sample, chromosome split, Block-phased GT-only PacBio VCFs — produced by the [preprocessing pipeline](../Preprocessing_Pipeline)
 - GRCh38 reference genetic maps - available from the RaPID GitHub repository
 
+---
 
+## Configuration
+
+The script contains a **USER-DEFINED INPUTS** section near the top — this is the only part you need to edit:
+
+| Variable | Description |
+|----------|-------------|
+| `BASE_DIR` | Your project root directory |
+| `SCRIPT_DIR` | Script directory for interpolate_loci.py |
+| `MAP_DIR` | Genetic Map directory for interpolating VCFs |
+| `VCF_DIR` | VCF directory |
+| `VCF_PREFIX` | VCF prefix |
+| `VCF_SUFFIX` | VCF suffix |
+| `INTERPOLATED_MAP_DIR` | Chromosome specific interpolated map directory  |
+| `OUTPUT_BASE` | Output Directory |
 
 
 
