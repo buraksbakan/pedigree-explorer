@@ -2,7 +2,7 @@
 
 IBD (Identity-by-Descent) segment detection using **IBIS v1.20.9** (Seidman et al., 2020), a fast, scalable IBD detector for un-phased genotype data. IBIS uses centiMorgan (cM)-based filtering with a population genetic map.
 
-This pipeline was developed as part of the **Pedigree Explorer** project for detection and visualisation of shared chromosomal regions in pedigree sequencing. It runs IBIS across three parameter configurations (sensitive, literature-recommended, and strict) on PLINK binary input data, then converts the output `.seg` files to BED format for visualisation in the [Pedigree Explorer GUI](../GUI).
+This pipeline was developed as part of the **Pedigree Explorer** project for detection and visualisation of shared chromosomal regions in pedigree sequencing. It runs IBIS across three parameter configurations (sensitive, literature-recommended, and strict) on PLINK binary input data, then converts the output `.seg` files to BED format for visualisation in the [Pedigree Explorer GUI](../GUI/README.txt).
 
 ---
 
