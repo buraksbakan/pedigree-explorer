@@ -35,7 +35,7 @@ TRUFFLE/
 - A `qsub`-compatible job scheduler (PBS, Torque, PBSPro, or equivalent) — tested on Crescent2
 - Singularity or Apptainer
 - A built container (`.sif` file) containing TRUFFLE — see the [preprocessing pipeline](../Preprocessing_Pipeline/README.md)
-- A bgzipped, tabix-indexed multi-sample VCF (`.vcf.gz` + `.tbi`) — typically the output of the [preprocessing pipeline](Preprocessing_Pipeline/README.md)
+- A bgzipped, tabix-indexed multi-sample VCF (`.vcf.gz` + `.tbi`) — typically the output of the [preprocessing pipeline](../Preprocessing_Pipeline/README.md)
 - `awk` (for BED conversion — standard Linux utility)
 
 ### Input File Requirements
@@ -43,7 +43,7 @@ TRUFFLE/
 TRUFFLE requires a **single multi-sample VCF** containing all individuals to be compared. The VCF should be:
 - bgzipped (`.vcf.gz`)
 - tabix-indexed (`.tbi`)
-- Filtered for autosomal biallelic SNPs (use the [preprocessing pipeline](Preprocessing_Pipeline/README.md))
+- Filtered for autosomal biallelic SNPs (use the [preprocessing pipeline](.//Preprocessing_Pipeline/README.md))
 - GRCh38 (or any consistent reference — TRUFFLE is reference-agnostic)
 
 ---
