@@ -56,7 +56,7 @@ A multi-generational reference family from the publicly available Platinum Pedig
 - **Subset analysed:** Generation 3 sibling trio
 - **Samples:** NA12879, NA12882, NA12886
 - **Relationship:** Full siblings (sharing parents NA12877 and NA12878)
-- **Expected IBD sharing:** ~50% genome (kinship coefficient 2φ = 0.5)
+- **Expected IBD sharing:** ~50% genome 
 
 ### Urothelial Cancer Case Study (IHCAPX8)
 
