@@ -2,7 +2,7 @@
 
 IBD (Identity-by-Descent) segment detection using **IBIS v1.20.9** (Seidman et al., 2020), a fast, scalable IBD detector for un-phased genotype data. IBIS uses centiMorgan (cM)-based filtering with a population genetic map.
 
-This pipeline was developed as part of the **Pedigree Explorer** project for detection and visualisation of shared chromosomal regions in pedigree sequencing. It runs IBIS across three parameter configurations (sensitive, literature-recommended, and strict) on PLINK binary input data, then converts the output `.seg` files to BED format for visualisation in the [Pedigree Explorer GUI](../../GUI).
+This pipeline was developed as part of the **Pedigree Explorer** project for detection and visualisation of shared chromosomal regions in pedigree sequencing. It runs IBIS across three parameter configurations (sensitive, literature-recommended, and strict) on PLINK binary input data, then converts the output `.seg` files to BED format for visualisation in the [Pedigree Explorer GUI](../GUI).
 
 ---
 
@@ -18,7 +18,7 @@ By default, IBIS detects only **IBD1 sharing** (regions where one haplotype is s
 - All-vs-all pairwise mode for cohort analysis
 - Fast: ~7 minutes on 3,000 individuals
 
-In the Pedigree Explorer project, IBIS is applied alongside [TRUFFLE](../TRUFFLE) (un-phased, IBS marker-based) and [RaPID](../RaPID) (phased) to enable cross-validation of IBD calls across detection algorithms.
+In the Pedigree Explorer project, IBIS is applied alongside [TRUFFLE](../Truffle) (un-phased, IBS marker-based) and [RaPID](../RaPID) (phased) to enable cross-validation of IBD calls across detection algorithms.
 
 ---
 
@@ -55,7 +55,7 @@ To prepare these files, use:
 - `s02_Illumina_PLINK_Conversion.sh` — Converts VCF to PLINK
 - `s03_Illumina_Add_Genetic_Map.sh` — Adds genetic distances using the GRCh38 Beagle genetic map
 
-See the [preprocessing pipeline README](../../Preprocessing_Pipeline) for details.
+See the [preprocessing pipeline README](../Preprocessing_Pipeline) for details.
 
 ---
 
