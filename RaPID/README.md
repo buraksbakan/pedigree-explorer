@@ -121,6 +121,58 @@ Naseri, A., Liu, X., Tang, K. et al. (2019). *RaPID: ultra-fast, powerful, and a
 https://doi.org/10.1186/s13059-019-1754-8
 
 ---
+
+## Output Files
+
+For each window size, per-chromosome results are merged:
+
+**Example output structure:**
+
+```
+results/
+├── rapid_w75
+├── rapid_w250
+├── rapid_w500
+├── rapid_w75_merged
+├── rapid_w250_merged
+├── rapid_w500_merged
+
+```
+**Note:**RaPID with -r 10 produces numbered intermediate files (chr1/your_chromosome_seperated_vcf/0_results_sorted.max.gz...chr1/your_chromosome_seperated_vcf/9_results_sorted.max.gz) alongside the final **results.max.gz**. The merge steps
+targets **results.max.gz** only
+
+---
+
+## Output Format
+
+RaPID produces tab-delimited `results.max.gz` for each chromomosome within the given VCF input with the following columns. These seperate outputs are merged using RaPID/Scripts/s02_rapid_3window_size.sh :
+
+| Column | Field | Description |
+|--------|-------|-------------|
+| 1 | chr_name | Chromosome |
+| 2 | sample_id1 | First sample ID |
+| 3 | sample_id2 | Second sample ID |
+| 4 | hap_id1 | Haplotype ID of the first sample |
+| 5 | hap_id2 | Haplotype ID of the second sample |
+| 6 | starting_pos_genomic | Start position of IBD segment (bp) |
+| 7 | ending_pos_genomic | End position of IBD segment (bp) |
+| 8 | genetic_length | Genetic Length of the IBD segment (cM) |
+| 9 | starting_site | Starting site of SNPs in the VCF file |
+| 10 | ending_site | Ending site of SNPs in the VCF file |
+
+**Output:** Files are converted to sorted BED format for visualisation in the Pedigree Explorer (GUI) 
+
+```
+chromosome  start_bp  end_bp  sample_pair
+```
+
+**Conversion logic:**
+- chr_name column stays the same
+- 2nd and 3rd column of BED file `start_bp = starting_pos_genomic`, `end_bp = ending_pos_genomic`
+- Sample pair name is formatted as `sample_id1-sample_id2`
+- Output is sorted by chromosome and start position for downstream tools
+
+---
 ## Citation
 
 If you use this pipeline, please cite the RaPID paper:
