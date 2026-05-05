@@ -14,7 +14,11 @@ RaPID uses a randomised path cover algorithm over positional Burrows-Wheeler tra
 random projections covers the agreed region.
 
 **Key features:**
-- Phased
+- Haplotype-based detection using a randomised path cover algorithm over a PBWT structure.
+- Phased detection of IBD segments (phase-set PS tags must be removed for PacBio block-phased VCFs).
+- cM-based filtering using a per-chromosome interpolated population genetic map.
+- All-vs-all pairwise IBD detection across all samples in the input VCF.
+- Per-chromosome processing with merged genome-wide output
 
 
 ## Repository Structure
@@ -39,6 +43,12 @@ RaPID/
 - `awk` (standard Linux utility)
 - Multi-sample, chromosome split, Block-phased GT-only PacBio VCFs — produced by the [preprocessing pipeline](../Preprocessing_Pipeline)
 - GRCh38 reference genetic maps - available from the RaPID GitHub repository
+
+### Input File Requirements
+
+RaPID requires a **phased, GT-only VCF** and a per-chromosome interpolated genetic map
+
+> **Important:** Phase-set (PS) tags must be removed from PacBio VCFs before running RaPID. Retaining PS information alongside block-phased genotypes causes segmentation faults. GT-only VCFs are produced during the [preprocessing pipeline](../Preprocessing_Pipeline) stage.
 
 ---
 
@@ -171,6 +181,16 @@ chromosome  start_bp  end_bp  sample_pair
 - 2nd and 3rd column of BED file `start_bp = starting_pos_genomic`, `end_bp = ending_pos_genomic`
 - Sample pair name is formatted as `sample_id1-sample_id2`
 - Output is sorted by chromosome and start position for downstream tools
+ 
+---
+
+## Notes
+
+- Process chromosomes individually; concatenating maps before interpolation causes RaPID to process only the last chromosome
+- The merge step targets `results.max.gz` only — not the numbered intermediate files
+- The author-provided `parameter_estimation.py` script produced division-by-zero errors and negative window-size values in this analysis; window sizes were therefore set manually
+- - RaPID source and genetic maps: https://github.com/ZhiGroup/RaPID
+
 
 ---
 ## Citation
@@ -178,9 +198,6 @@ chromosome  start_bp  end_bp  sample_pair
 If you use this pipeline, please cite the RaPID paper:
 
 > Naseri, A., Liu, X., Tang, K. et al. RaPID: ultra-fast, powerful, and accurate detection of segments identical by descent (IBD) in biobank-scale cohorts. Genome Biol 20, 143 (2019). https://doi.org/10.1186/s13059-019-1754-8.
-
-RaPID repository and genetic maps:  
-> https://github.com/ZhiGroup/RaPID
 
 ---
 
