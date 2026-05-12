@@ -6,7 +6,7 @@ This pipeline was developed as part of the **Pedigree Explorer** project for det
 
 ---
 
-## Overview
+### Overview
 
 IBIS detects IBD regions by scanning the genome for contiguous regions of high identity-by-state (IBS) between pairs of individuals. A window-based approach identifies candidate segments while tolerating a limited number of mismatches, reducing fragmentation caused by genotyping errors, isolated recombination events, or de novo mutations.
 
