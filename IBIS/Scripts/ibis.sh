@@ -56,7 +56,7 @@ ibis -bfile "${PLINK_INPUT_2}" ${SEIDMAN_OPTS} -o "${OUT_DIR_2}/seidman"
 ibis -bfile "${PLINK_INPUT_2}" ${STRICT_OPTS} -o "${OUT_DIR_2}/strict"
 
 # =====================
-# CONVERT .seg → BED
+# CONVERT .seg to BED
 # =====================
 
 for dir in "${OUT_DIR_1}" "${OUT_DIR_2}"; do
